@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "E:\\REPOS\\Hardware Service Center\\Hardware Service Cetner\\Hardware Service Cetner\\Hardware Service Cetner.csproj": {}
+    "D:\\Personal\\Hardware-Service-Center\\Hardware Service Cetner\\Hardware Service Cetner.csproj": {}
   },
   "projects": {
-    "E:\\REPOS\\Hardware Service Center\\Hardware Service Cetner\\Hardware Service Cetner\\Hardware Service Cetner.csproj": {
+    "D:\\Personal\\Hardware-Service-Center\\Hardware Service Cetner\\Hardware Service Cetner.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\REPOS\\Hardware Service Center\\Hardware Service Cetner\\Hardware Service Cetner\\Hardware Service Cetner.csproj",
+        "projectUniqueName": "D:\\Personal\\Hardware-Service-Center\\Hardware Service Cetner\\Hardware Service Cetner.csproj",
         "projectName": "Hardware Service Cetner",
-        "projectPath": "E:\\REPOS\\Hardware Service Center\\Hardware Service Cetner\\Hardware Service Cetner\\Hardware Service Cetner.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "E:\\REPOS\\Hardware Service Center\\Hardware Service Cetner\\Hardware Service Cetner\\obj\\",
+        "projectPath": "D:\\Personal\\Hardware-Service-Center\\Hardware Service Cetner\\Hardware Service Cetner.csproj",
+        "packagesPath": "C:\\Users\\Mandi\\.nuget\\packages\\",
+        "outputPath": "D:\\Personal\\Hardware-Service-Center\\Hardware Service Cetner\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Mandi\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -77,7 +71,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.417/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.420/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
