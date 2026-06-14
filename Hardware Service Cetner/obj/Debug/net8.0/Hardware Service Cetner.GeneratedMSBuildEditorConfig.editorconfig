@@ -18,6 +18,18 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\Personal\Hardware-Service-Center\Hardware Service Cetner
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Account/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Account/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Account/Report.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZXBvcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Customer/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
