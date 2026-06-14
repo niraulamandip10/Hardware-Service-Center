@@ -17,6 +17,7 @@ public class DbQueries
         using var connection = _dapperContext.CreateConnection();
         await connection.ExecuteAsync(CreateCustomerTable);
         await connection.ExecuteAsync(CreateTechnicianTable);
+        await connection.ExecuteAsync(CreateUserTable);
     }
 
     public const string CreateCustomerTable = @"CREATE TABLE IF NOT EXISTS customer (
@@ -35,5 +36,28 @@ public class DbQueries
     code        INTEGER       NOT NULL,
     recdate     TIMESTAMP    NOT NULL,
     isactive    BOOLEAN      NOT NULL DEFAULT TRUE)";
+    
+    public const string CreateUserTable = @"
+CREATE TABLE IF NOT EXISTS users (
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+
+    name VARCHAR(100) NOT NULL,
+
+    email VARCHAR(100),
+
+    phone VARCHAR(30),
+
+    address VARCHAR(200),
+
+    username VARCHAR(50) NOT NULL UNIQUE,
+
+    password VARCHAR(200) NOT NULL,
+
+    registrationdate TIMESTAMP NOT NULL,
+
+    isactive BOOLEAN NOT NULL DEFAULT TRUE
+);";
+    
 }
+
 
