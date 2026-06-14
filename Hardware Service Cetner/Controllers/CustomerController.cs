@@ -93,7 +93,7 @@ public class CustomerController : Controller
     {
         using var connection = _dapperContext.CreateConnection();
         var activate = (@"UPDATE customer SET Status = @Status WHERE id = @id");
-        connection.Execute(activate, new { CustomerStatus = CustomerStatus.Active });
+        await connection.ExecuteAsync(activate, new { Status = CustomerStatus.Active, id });
         TempData["Success"] = "Customer activated successfully!";
         return RedirectToAction("Report");
     }
@@ -103,7 +103,7 @@ public class CustomerController : Controller
     {
         using var connection = _dapperContext.CreateConnection();
         var deactivate = (@"UPDATE customer SET Status = @Status WHERE id = @id");
-        connection.Execute(deactivate, new { CustomerStatus = CustomerStatus.Inactive });
+        await connection.ExecuteAsync(deactivate, new { Status = CustomerStatus.Inactive, id });
         TempData["Success"] = "Customer deactivated successfully!";
         return RedirectToAction("Report");
     }
