@@ -9,75 +9,75 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Hardware_Service_Cetner
 build_property.RootNamespace = Hardware_Service_Cetner
-build_property.ProjectDir = D:\Personal\Hardware-Service-Center\Hardware Service Cetner\
+build_property.ProjectDir = E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\Personal\Hardware-Service-Center\Hardware Service Cetner
+build_property.MSBuildProjectDirectory = E:\REPOS\Hardware-Service-Center\Hardware Service Cetner
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Account/Create.cshtml]
+[E:/REPOS/Hardware-Service-Center/Hardware Service Cetner/Views/Account/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Account/Edit.cshtml]
+[E:/REPOS/Hardware-Service-Center/Hardware Service Cetner/Views/Account/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Account/Report.cshtml]
+[E:/REPOS/Hardware-Service-Center/Hardware Service Cetner/Views/Account/Report.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZXBvcnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Customer/Create.cshtml]
+[E:/REPOS/Hardware-Service-Center/Hardware Service Cetner/Views/Customer/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Customer/Edit.cshtml]
+[E:/REPOS/Hardware-Service-Center/Hardware Service Cetner/Views/Customer/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Customer/Report.cshtml]
+[E:/REPOS/Hardware-Service-Center/Hardware Service Cetner/Views/Customer/Report.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcUmVwb3J0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Home/Index.cshtml]
+[E:/REPOS/Hardware-Service-Center/Hardware Service Cetner/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Home/Privacy.cshtml]
+[E:/REPOS/Hardware-Service-Center/Hardware Service Cetner/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Shared/Error.cshtml]
+[E:/REPOS/Hardware-Service-Center/Hardware Service Cetner/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Shared/_ValidationScriptsPartial.cshtml]
+[E:/REPOS/Hardware-Service-Center/Hardware Service Cetner/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Technician/Create.cshtml]
+[E:/REPOS/Hardware-Service-Center/Hardware Service Cetner/Views/Technician/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVjaG5pY2lhblxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Technician/Edit.cshtml]
+[E:/REPOS/Hardware-Service-Center/Hardware Service Cetner/Views/Technician/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVjaG5pY2lhblxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Technician/Report.cshtml]
+[E:/REPOS/Hardware-Service-Center/Hardware Service Cetner/Views/Technician/Report.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVjaG5pY2lhblxSZXBvcnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/_ViewImports.cshtml]
+[E:/REPOS/Hardware-Service-Center/Hardware Service Cetner/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/_ViewStart.cshtml]
+[E:/REPOS/Hardware-Service-Center/Hardware Service Cetner/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Personal/Hardware-Service-Center/Hardware Service Cetner/Views/Shared/_Layout.cshtml]
+[E:/REPOS/Hardware-Service-Center/Hardware Service Cetner/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-j5yixmj7nu
