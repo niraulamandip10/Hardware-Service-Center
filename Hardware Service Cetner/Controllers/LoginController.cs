@@ -8,10 +8,10 @@ namespace Hardware_Service_Cetner.Controllers;
 
 public class LoginController : Controller
 {
-    private readonly DapperContext _dapperContext;
-    public LoginController(DapperContext dapperContext)
+    private readonly IDbConnectionProvider _dbConnectionProvider;
+    public LoginController(IDbConnectionProvider dbConnectionProvider)
     {
-        _dapperContext = dapperContext;
+        _dbConnectionProvider = dbConnectionProvider;
     }
 
     public IActionResult Login()
@@ -25,7 +25,7 @@ public class LoginController : Controller
         if (!ModelState.IsValid)
             return View(loginModel);
 
-        using var connection = _dapperContext.CreateConnection();
+        using var connection = _dbConnectionProvider.CreateConnection();
         var user = connection.QueryFirstOrDefault<AccountModel>(
             "SELECT * FROM users WHERE username = @Username", loginModel);
 

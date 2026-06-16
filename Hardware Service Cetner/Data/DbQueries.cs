@@ -5,16 +5,16 @@ namespace Hardware_Service_Cetner.Data;
 
 public class DbQueries
 {
-    private readonly DapperContext _dapperContext;
+    private readonly IDbConnectionProvider _dbConnectionProvider;
 
-    public DbQueries(DapperContext dapperContext)
+    public DbQueries(IDbConnectionProvider dbConnectionProvider)
     {
-        _dapperContext = dapperContext;
+        _dbConnectionProvider = dbConnectionProvider;
     }
 
     public async Task IntializeAsync()
     {
-        using var connection = _dapperContext.CreateConnection();
+        using var connection = _dbConnectionProvider.CreateConnection();
         await connection.ExecuteAsync(CreateCustomerTable);
         await connection.ExecuteAsync(CreateTechnicianTable);
         await connection.ExecuteAsync(CreateUserTable);

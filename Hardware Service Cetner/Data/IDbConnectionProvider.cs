@@ -3,10 +3,10 @@ using Npgsql;
 
 namespace Hardware_Service_Cetner.Data;
 
-public class DapperContext
+public class IDbConnectionProvider
 {
     private readonly IConfiguration _configuration;
-    public DapperContext(IConfiguration configuration)
+    public IDbConnectionProvider(IConfiguration configuration)
     {
         _configuration = configuration;
     }

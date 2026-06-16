@@ -7,10 +7,10 @@ namespace Hardware_Service_Cetner.Controllers;
 
 public class DeviceController : Controller
 {
-    private readonly DapperContext _dapperContext;
-    public DeviceController(DapperContext dapperContext)
+    private readonly IDbConnectionProvider _dbConnectionProvider;
+    public DeviceController(IDbConnectionProvider dbConnectionProvider)
     {
-        _dapperContext = dapperContext;
+        _dbConnectionProvider = dbConnectionProvider;
     }
 
     public IActionResult Create()
@@ -24,7 +24,7 @@ public class DeviceController : Controller
     {
         if (ModelState.IsValid)
         {
-            var connection = _dapperContext.CreateConnection();
+            var connection = _dbConnectionProvider.CreateConnection();
             var getdevice = @"Insert into device set (Name,Description) values (@Name,@Description)";
            await connection.ExecuteAsync(getdevice, deviceModel);
 
@@ -36,7 +36,7 @@ public class DeviceController : Controller
     [HttpGet]
     public IActionResult Report()
     {
-        var connection = _dapperContext.CreateConnection();
+        var connection = _dbConnectionProvider.CreateConnection();
         var getReport = @"select * from device";
         connection.ExecuteAsync(getReport);
         return View(getReport);
@@ -45,7 +45,7 @@ public class DeviceController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
-        var connection = _dapperContext.CreateConnection();
+        var connection = _dbConnectionProvider.CreateConnection();
         var editReport  = await connection.QueryFirstOrDefaultAsync<DeviceModel>("select * from device where Id = @Id", new { Id = id });
         if (editReport != null)
         {
@@ -58,7 +58,7 @@ public class DeviceController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit( int id ,DeviceModel deviceModel)
     {
-        var connection = _dapperContext.CreateConnection();
+        var connection = _dbConnectionProvider.CreateConnection();
         var editReport = ("update device set Name = @Name , Description =@Description where Id =@Id");
               deviceModel.Id = id;
               await connection.ExecuteAsync(editReport);
