@@ -30,7 +30,7 @@ public class AccountModel
     public string Username { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Password is required")]
-    [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 100 characters")]
+    [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be more than 6 characters")]
     [DataType(DataType.Password)]
     [Display(Name = "Password")]
     public string Password { get; set; } = string.Empty;

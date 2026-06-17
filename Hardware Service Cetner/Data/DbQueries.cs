@@ -5,19 +5,20 @@ namespace Hardware_Service_Cetner.Data;
 
 public class DbQueries
 {
-    private readonly DapperContext _dapperContext;
+    private readonly IDbConnectionProvider _dbConnectionProvider;
 
-    public DbQueries(DapperContext dapperContext)
+    public DbQueries(IDbConnectionProvider dbConnectionProvider)
     {
-        _dapperContext = dapperContext;
+        _dbConnectionProvider = dbConnectionProvider;
     }
 
     public async Task IntializeAsync()
     {
-        using var connection = _dapperContext.CreateConnection();
+        using var connection = _dbConnectionProvider.CreateConnection();
         await connection.ExecuteAsync(CreateCustomerTable);
         await connection.ExecuteAsync(CreateTechnicianTable);
         await connection.ExecuteAsync(CreateUserTable);
+        await connection.ExecuteAsync(CreateDeviceTable);
     }
 
     public const string CreateCustomerTable = @"CREATE TABLE IF NOT EXISTS customer (
@@ -36,7 +37,7 @@ public class DbQueries
     code        INTEGER       NOT NULL,
     recdate     TIMESTAMP    NOT NULL,
     isactive    BOOLEAN      NOT NULL DEFAULT TRUE)";
-    
+
     public const string CreateUserTable = @"
 CREATE TABLE IF NOT EXISTS users (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -57,7 +58,13 @@ CREATE TABLE IF NOT EXISTS users (
 
     isactive BOOLEAN NOT NULL DEFAULT TRUE
 );";
-    
+
+    public const string CreateDeviceTable = @"CREATE TABLE IF NOT EXISTS device (
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description varchar(500),
+    Status bool not null default true );";
+
 }
 
 

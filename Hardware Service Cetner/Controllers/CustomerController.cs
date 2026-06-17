@@ -9,10 +9,10 @@ using Hardware_Service_Cetner.Data;
 
 public class CustomerController : Controller
 {
-    private readonly DapperContext _dapperContext;
-    public CustomerController(DapperContext dapperContext)
+    private readonly IDbConnectionProvider _dbConnectionProvider;
+    public CustomerController(IDbConnectionProvider dbConnectionProvider)
     {
-        _dapperContext = dapperContext;
+        _dbConnectionProvider = dbConnectionProvider;
     }
 
     public IActionResult Create()
@@ -25,7 +25,7 @@ public class CustomerController : Controller
     {
         if (ModelState.IsValid)
         {
-            using var connection = _dapperContext.CreateConnection();
+            using var connection = _dbConnectionProvider.CreateConnection();
             var createcustomer = @"INSERT INTO customer (Name, Email, Phone, Address, Status) VALUES (@Name, @Email, @Phone, @Address, @Status)";
             await connection.ExecuteAsync(createcustomer, customer);
             TempData["Success"] = "Customer created successfully!";
@@ -38,7 +38,7 @@ public class CustomerController : Controller
     [HttpGet]
     public async Task<IActionResult> Report()
     {
-        using var connection = _dapperContext.CreateConnection();
+        using var connection = _dbConnectionProvider.CreateConnection();
         var customers = await connection.QueryAsync<CustomerModel>("SELECT * FROM customer ORDER BY Id DESC");
         return View(customers);
     }
@@ -50,7 +50,7 @@ public class CustomerController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
-        using var connection = _dapperContext.CreateConnection();
+        using var connection = _dbConnectionProvider.CreateConnection();
         var customer = await connection.QueryFirstOrDefaultAsync<CustomerModel>("select * from customer where id = @id", new { id });
         if (customer == null)
         {
@@ -66,7 +66,7 @@ public class CustomerController : Controller
     {
         if (ModelState.IsValid)
         {
-            using var connection = _dapperContext.CreateConnection();
+            using var connection = _dbConnectionProvider.CreateConnection();
             var edit =
                 @"UPDATE customer set Name = @Name, Email = @Email, Phone = @Phone, Address = @Address, Status = @Status where id = @Id";
             customer.Id = id;
@@ -81,7 +81,7 @@ public class CustomerController : Controller
     [HttpPost]
     public IActionResult Delete(int id)
     {
-        using var connection = _dapperContext.CreateConnection();
+        using var connection = _dbConnectionProvider.CreateConnection();
         var delete =@"Delete from customer where  id = @id";
         connection.Execute(delete, new { id });
         return RedirectToAction("Report");
@@ -91,7 +91,7 @@ public class CustomerController : Controller
     [HttpPost]
     public async Task<IActionResult> Activate(int id)
     {
-        using var connection = _dapperContext.CreateConnection();
+        using var connection = _dbConnectionProvider.CreateConnection();
         var activate = (@"UPDATE customer SET Status = @Status WHERE id = @id");
         await connection.ExecuteAsync(activate, new { Status = CustomerStatus.Active, id });
         TempData["Success"] = "Customer activated successfully!";
@@ -101,7 +101,7 @@ public class CustomerController : Controller
     [HttpPost]
     public async Task<IActionResult> Deactivate(int id)
     {
-        using var connection = _dapperContext.CreateConnection();
+        using var connection = _dbConnectionProvider.CreateConnection();
         var deactivate = (@"UPDATE customer SET Status = @Status WHERE id = @id");
         await connection.ExecuteAsync(deactivate, new { Status = CustomerStatus.Inactive, id });
         TempData["Success"] = "Customer deactivated successfully!";

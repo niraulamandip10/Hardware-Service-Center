@@ -9,17 +9,17 @@ namespace Hardware_Service_Cetner.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly DapperContext _dapperContext;
+    private readonly IDbConnectionProvider _dbConnectionProvider;
 
-    public HomeController(ILogger<HomeController> logger, DapperContext dapperContext)
+    public HomeController(ILogger<HomeController> logger, IDbConnectionProvider dbConnectionProvider)
     {
         _logger = logger;
-        _dapperContext = dapperContext;
+        _dbConnectionProvider = dbConnectionProvider;
     }
 
     public async Task<IActionResult> Index()
     {
-        using var connection = _dapperContext.CreateConnection();
+        using var connection = _dbConnectionProvider.CreateConnection();
         var users = await connection.QueryAsync<AccountModel>("SELECT * FROM users ORDER BY Id DESC");
         return View(users);
     }
