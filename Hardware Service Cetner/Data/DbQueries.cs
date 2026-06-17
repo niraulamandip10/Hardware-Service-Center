@@ -64,6 +64,8 @@ CREATE TABLE IF NOT EXISTS users (
     name VARCHAR(100) NOT NULL,
     description varchar(500),
     Status bool not null default true );";
+    
+    
 
 }
 
