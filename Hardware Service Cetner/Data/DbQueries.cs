@@ -64,8 +64,34 @@ CREATE TABLE IF NOT EXISTS users (
     name VARCHAR(100) NOT NULL,
     description varchar(500),
     Status bool not null default true );";
-    
-    
+
+    public const string CreateTicketTable = @"CREATE TABLE IF NOT EXISTS tickets
+(
+    id               int generated always as identity primary key ,
+    ticketno          INTEGER     NOT NULL,
+    customerid        INTEGER     NOT NULL,
+    deviceid          INTEGER     NOT NULL,
+    technicianid      INTEGER,
+    ticketdescription TEXT,
+    parent
+    rec_date           TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    rec_by_id          INTEGER     NOT NULL,
+    ticket_status      INTEGER     NOT NULL DEFAULT 0,
+
+    CONSTRAINT fk_ticket_customer
+        FOREIGN KEY (customer_id)
+            REFERENCES customer (id),
+
+    CONSTRAINT fk_ticket_device
+        FOREIGN KEY (device_id)
+            REFERENCES device (id),
+
+    CONSTRAINT fk_ticket_technician
+        FOREIGN KEY (technician_id)
+            REFERENCES technician (id),
+
+    CONSTRAINT chk_ticket_status
+        CHECK (ticket_status IN (1, 2, 3, 4, 5)))";
 
 }
 

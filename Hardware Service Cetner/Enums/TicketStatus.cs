@@ -7,6 +7,4 @@ public enum TicketStatus
     Repairing = 3 ,
     Completed = 4 ,
     Delevered  = 5 ,
-    
-        
 }
