@@ -19,6 +19,7 @@ public class DbQueries
         await connection.ExecuteAsync(CreateTechnicianTable);
         await connection.ExecuteAsync(CreateUserTable);
         await connection.ExecuteAsync(CreateDeviceTable);
+        await connection.ExecuteAsync(CreateTicketTable);
     }
 
     public const string CreateCustomerTable = @"CREATE TABLE IF NOT EXISTS customer (
@@ -68,30 +69,33 @@ CREATE TABLE IF NOT EXISTS users (
     public const string CreateTicketTable = @"CREATE TABLE IF NOT EXISTS tickets
 (
     id               int generated always as identity primary key ,
-    ticketno          INTEGER     NOT NULL,
+    ticketno          VARCHAR(50) NOT NULL,
     customerid        INTEGER     NOT NULL,
     deviceid          INTEGER     NOT NULL,
     technicianid      INTEGER,
     ticketdescription TEXT,
-    parent
-    rec_date           TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    rec_by_id          INTEGER     NOT NULL,
-    ticket_status      INTEGER     NOT NULL DEFAULT 0,
+    recdate           TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    recbyid          INTEGER     NOT NULL,
+    ticketstatus      INTEGER     NOT NULL DEFAULT 1,
 
     CONSTRAINT fk_ticket_customer
-        FOREIGN KEY (customer_id)
+        FOREIGN KEY (customerid)
             REFERENCES customer (id),
 
     CONSTRAINT fk_ticket_device
-        FOREIGN KEY (device_id)
+        FOREIGN KEY (deviceid)
             REFERENCES device (id),
 
     CONSTRAINT fk_ticket_technician
-        FOREIGN KEY (technician_id)
+        FOREIGN KEY (technicianid)
             REFERENCES technician (id),
+   CONSTRAINT fk_ticket_RecById
+        FOREIGN KEY (recbyid)
+            REFERENCES users (id),
+
 
     CONSTRAINT chk_ticket_status
-        CHECK (ticket_status IN (1, 2, 3, 4, 5)))";
+        CHECK (ticketstatus IN (1, 2, 3, 4, 5)))";
 
 }
 

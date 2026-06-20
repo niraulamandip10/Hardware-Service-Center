@@ -69,6 +69,9 @@ D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\ref
 D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.pdb
 D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.genruntimeconfig.cache
 D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\ref\Hardware Service Cetner.dll
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.csproj.AssemblyReference.cache
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.GeneratedMSBuildEditorConfig.editorconfig
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.AssemblyInfoInputs.cache
 E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\appsettings.Development.json
 E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\appsettings.json
 E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.staticwebassets.runtime.json
@@ -80,9 +83,6 @@ E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Hardwa
 E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Dapper.dll
 E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Npgsql.dll
 E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
-E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.csproj.AssemblyReference.cache
-E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.GeneratedMSBuildEditorConfig.editorconfig
-E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.AssemblyInfoInputs.cache
 E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.AssemblyInfo.cs
 E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.csproj.CoreCompileInputs.cache
 E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.MvcApplicationPartsAssemblyInfo.cache

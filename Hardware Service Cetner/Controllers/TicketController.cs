@@ -1,8 +1,9 @@
 ﻿using System.Data;
+using Dapper;
 using Hardware_Service_Cetner.Data;
+using Hardware_Service_Cetner.Enums;
 using Hardware_Service_Cetner.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 
 namespace Hardware_Service_Cetner.Controllers;
 
@@ -15,19 +16,173 @@ public class TicketController : Controller
         _dbConnectionProvider = dbConnectionProvider;
     }
 
-    public IActionResult Create()
+    [HttpGet]
+    public async Task<IActionResult> Create()
     {
+        using var connection = _dbConnectionProvider.CreateConnection();
+        var getCustomer = await connection.QueryAsync<CustomerModel>("select id, name from customer where Status = @Status", new { Status = 1 });
+        var getDevice = await connection.QueryAsync<DeviceModel>("select id, name from device where Status = @Status", new { Status = true });
+        var getRecById = await connection.QueryAsync<AccountModel>("select id, name from users where isactive = @Status", new { Status = true });
+
+        ViewBag.getCustomer = getCustomer;
+        ViewBag.getDevice = getDevice;
+        ViewBag.getRecById = getRecById;
+
         return View();
     }
 
     [HttpPost]
     public async Task<IActionResult> Create(TicketModel ticketModel)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            var connection = _dbConnectionProvider.CreateConnection();
-            var createTicket = "Insert into "
+            using var connection = _dbConnectionProvider.CreateConnection();
+            var getCustomer = await connection.QueryAsync<CustomerModel>("select id, name from customer where Status = @Status", new { Status = 1 });
+            var getDevice = await connection.QueryAsync<DeviceModel>("select id, name from device where Status = @Status", new { Status = true });
+            var getRecById = await connection.QueryAsync<AccountModel>("select id, name from users where isactive = @Status", new { Status = true });
+
+            ViewBag.getCustomer = getCustomer;
+            ViewBag.getDevice = getDevice;
+            ViewBag.getRecById = getRecById;
+
+            return View(ticketModel);
         }
-        
+
+        using var conn = _dbConnectionProvider.CreateConnection();
+
+        var lastId = await conn.QueryFirstOrDefaultAsync<int?>(
+            "SELECT MAX(Id) FROM tickets WHERE ticketstatus = 1");
+
+        var ticketNo = $"TKT-{DateTime.Now:yyyyMMdd}-{((lastId ?? 0) + 1):D4}";
+
+        var sql = @"INSERT INTO tickets
+        (ticketno, customerid, deviceid, ticketdescription, recdate, recbyid, ticketstatus)
+        VALUES
+        (@TicketNo, @CustomerId, @DeviceId, @TicketDescription, @RecDate, @RecById, @TicketStatus)";
+
+        await conn.ExecuteAsync(sql, new
+        {
+            TicketNo = ticketNo,
+            ticketModel.CustomerId,
+            ticketModel.DeviceId,
+            ticketModel.TicketDescription,
+            RecDate = DateTime.Now,
+            ticketModel.RecById,
+            TicketStatus = (int)TicketStatus.Pending
+        });
+
+        TempData["Success"] = "Ticket created successfully!";
+        return RedirectToAction("Report");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Report()
+    {
+        using var connection = _dbConnectionProvider.CreateConnection();
+        var sql = @"SELECT t.id, t.ticketno, t.customerid, t.deviceid, t.technicianid,
+                    t.ticketdescription, t.recdate, t.recbyid, t.ticketstatus,
+                    c.name AS customername, d.name AS devicename,
+                    u.name AS receivedbyname, tech.name AS technicname
+                    FROM tickets t
+                    LEFT JOIN customer c ON t.customerid = c.id
+                    LEFT JOIN device d ON t.deviceid = d.id
+                    LEFT JOIN users u ON t.recbyid = u.id
+                    LEFT JOIN technician tech ON t.technicianid = tech.id
+                    ORDER BY t.id DESC";
+        var tickets = await connection.QueryAsync<TicketReportViewModel>(sql);
+        return View(tickets);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Assigned()
+    {
+        using var connection = _dbConnectionProvider.CreateConnection();
+        var sql = @"SELECT t.id, t.ticketno, t.customerid, t.deviceid, t.technicianid,
+                    t.ticketdescription, t.recdate, t.recbyid, t.ticketstatus,
+                    c.name AS customername, d.name AS devicename,
+                    u.name AS receivedbyname, tech.name AS technicname
+                    FROM tickets t
+                    LEFT JOIN customer c ON t.customerid = c.id
+                    LEFT JOIN device d ON t.deviceid = d.id
+                    LEFT JOIN users u ON t.recbyid = u.id
+                    INNER JOIN technician tech ON t.technicianid = tech.id
+                    WHERE t.ticketstatus = @Status
+                    ORDER BY t.id DESC";
+        var tickets = await connection.QueryAsync<TicketReportViewModel>(sql, new { Status = (int)TicketStatus.Assigned });
+        return View(tickets);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Completed()
+    {
+        using var connection = _dbConnectionProvider.CreateConnection();
+        var sql = @"SELECT t.id, t.ticketno, t.customerid, t.deviceid, t.technicianid,
+                    t.ticketdescription, t.recdate, t.recbyid, t.ticketstatus,
+                    c.name AS customername, d.name AS devicename,
+                    u.name AS receivedbyname, tech.name AS technicname
+                    FROM tickets t
+                    LEFT JOIN customer c ON t.customerid = c.id
+                    LEFT JOIN device d ON t.deviceid = d.id
+                    LEFT JOIN users u ON t.recbyid = u.id
+                    LEFT JOIN technician tech ON t.technicianid = tech.id
+                    WHERE t.ticketstatus = 4
+                    ORDER BY t.id DESC";
+        var tickets = await connection.QueryAsync<TicketReportViewModel>(sql, new { Statuses = new[] { (int)TicketStatus.Completed, (int)TicketStatus.Delevered } });
+        return View(tickets);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Assign(int id)
+    {
+        using var connection = _dbConnectionProvider.CreateConnection();
+
+        var sql = @"SELECT t.id, t.ticketno, t.customerid, t.deviceid, t.technicianid,
+                    t.ticketdescription, t.recdate, t.recbyid, t.ticketstatus,
+                    c.name AS customername, d.name AS devicename,
+                    u.name AS receivedbyname, tech.name AS technicname
+                    FROM tickets t
+                    LEFT JOIN customer c ON t.customerid = c.id
+                    LEFT JOIN device d ON t.deviceid = d.id
+                    LEFT JOIN users u ON t.recbyid = u.id
+                    LEFT JOIN technician tech ON t.technicianid = tech.id
+                    WHERE t.id = @Id";
+        var ticket = await connection.QueryFirstOrDefaultAsync<TicketReportViewModel>(sql, new { Id = id });
+
+        if (ticket == null)
+        {
+            TempData["Error"] = "Ticket not found.";
+            return RedirectToAction("Report");
+        }
+
+        var technicians = await connection.QueryAsync<TechnicianModel>(
+            "SELECT id, name FROM technician WHERE isactive = @Status", new { Status = true });
+
+        ViewBag.Technicians = technicians;
+        return View(ticket);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Assign(int id, int technicianId, int ticketStatus)
+    {
+        using var connection = _dbConnectionProvider.CreateConnection();
+        await connection.ExecuteAsync(
+            "UPDATE tickets SET technicianid = @TechnicianId, ticketstatus = @TicketStatus WHERE id = @Id",
+            new { Id = id, TechnicianId = technicianId, TicketStatus = ticketStatus });
+
+        TempData["Success"] = "Ticket assigned successfully!";
+        return RedirectToAction("Report");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UpdateStatus(int id, int ticketStatus)
+    {
+        using var connection = _dbConnectionProvider.CreateConnection();
+        await connection.ExecuteAsync(
+            "UPDATE tickets SET ticketstatus = @TicketStatus WHERE id = @Id",
+            new { Id = id, TicketStatus = ticketStatus });
+
+        var statusName = Enum.GetName(typeof(TicketStatus), ticketStatus);
+        TempData["Success"] = $"Ticket status updated to {statusName}!";
+        return RedirectToAction("Report");
     }
 }
