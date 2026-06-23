@@ -13,5 +13,5 @@ public class TicketModel
     public string TicketDescription { get; set; }
     public DateTime RecDate { get; set; }
     public int RecById { get; set; }
-    public TicketStatus TicketStatus { get; set; }
+    public static TicketStatus TicketStatus { get; set; }
 }

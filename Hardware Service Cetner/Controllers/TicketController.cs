@@ -209,12 +209,49 @@ public class TicketController : Controller
         return RedirectToAction("Report");
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Complete(int id, int ticketStatus)
+    {
+        using var connection = _dbConnectionProvider.CreateConnection();
+        var completeStatus = await connection.QueryFirstAsync<TicketModel>("Select * from  tickets where Id = @Id and  ticketstatus = @TicketStatus",
+            new { Id = id, TicketStatus = (int)TicketStatus.Repairing });
+
+        if (completeStatus == null)
+        {
+            TempData["Error"] = "Ticket not found.";
+            return RedirectToAction("Report");
+        }
+        
+        return View(completeStatus);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Complete(int id, TicketModel ticketModel , DeleveryModel deleveryModel)
+    {
+        using var connection = _dbConnectionProvider.CreateConnection();
+
+        if (ModelState.IsValid)
+        {
+            var complete = "Insert into delevery set (TicketId,UserId,RecDate,Amount , Remarks) values (@Id,@UserId,@RecDate,@Amount , @Remarks)";
+            await connection.ExecuteAsync(complete, ticketModel);
+            var updatestatus = "Update  tickets set ticketstatus = @TicketStatus where id = @Id" ;
+            await connection.ExecuteAsync(updatestatus, new {TicketStatus = (int)TicketStatus.Completed});
+        }
+        return RedirectToAction("Report");
+        
+    }
 
     [HttpGet]
     public async Task<IActionResult> Reverse(int id)
     {
         using var connection = _dbConnectionProvider.CreateConnection();
-        var reversetkt =  connection.QueryFirstOrDefaultAsync<TicketModel>("Select * from tickets where Id = @Id");
+
+        if (TicketModel.TicketStatus == TicketStatus.Completed)
+        {
+            TempData["Error"] = "Ticket status cannot be changed once completed.";
+            return RedirectToAction("Report");
+        }
+        var reversetkt = connection.QueryFirstOrDefaultAsync<TicketModel>("Select * from tickets where Id = @Id");
 
         return View(reversetkt);
     }
@@ -223,9 +260,8 @@ public class TicketController : Controller
     public async Task<IActionResult> Reverse(int id, TicketModel ticketModel)
     {
         using var connection = _dbConnectionProvider.CreateConnection();
-        var reverse = "Update tickets Set Status = @Status where Id = @Id";
-         connection.ExecuteAsync(reverse, ticketModel.Id = id);
-         return RedirectToAction("Report");
-
+        var reverse = "Update tickets Set Status = @Status where Id = @Id and TicketStatus != 4";
+        connection.ExecuteAsync(reverse, ticketModel.Id = id);
+        return RedirectToAction("Report");
     }
 }

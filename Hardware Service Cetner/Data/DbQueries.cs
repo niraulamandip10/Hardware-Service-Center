@@ -20,6 +20,7 @@ public class DbQueries
         await connection.ExecuteAsync(CreateUserTable);
         await connection.ExecuteAsync(CreateDeviceTable);
         await connection.ExecuteAsync(CreateTicketTable);
+        await connection.ExecuteAsync(CreateDeleveryTable);
     }
 
     public const string CreateCustomerTable = @"CREATE TABLE IF NOT EXISTS customer (
@@ -96,6 +97,24 @@ CREATE TABLE IF NOT EXISTS users (
 
     CONSTRAINT chk_ticket_status
         CHECK (ticketstatus IN (1, 2, 3, 4, 5)))";
+
+
+
+    public const string CreateDeleveryTable =
+        @"CREATE TABLE IF NOT EXISTS delevery (id INT generated always as identity primary key ,
+        ticketid INT NOT NULL,
+        userid INT NOT NULL,
+        recdate timestamp NOT NULL default current_timestamp,
+        amount FLOAT NOT NULL,
+        paymentMethod varchar(100) NULL,
+        status INT NOT NULL default 1,
+        remarks varchar(1000),
+         CONSTRAINT fk_ticket_ticket_id
+        FOREIGN KEY (ticketid)
+            REFERENCES tickets (id),
+        CONSTRAINT fk_ticket_userid
+        FOREIGN KEY (userid)
+            REFERENCES users (id))";
 
 }
 
