@@ -20,9 +20,14 @@ public class TicketController : Controller
     public async Task<IActionResult> Create()
     {
         using var connection = _dbConnectionProvider.CreateConnection();
-        var getCustomer = await connection.QueryAsync<CustomerModel>("select id, name from customer where Status = @Status", new { Status = 1 });
-        var getDevice = await connection.QueryAsync<DeviceModel>("select id, name from device where Status = @Status", new { Status = true });
-        var getRecById = await connection.QueryAsync<AccountModel>("select id, name from users where isactive = @Status", new { Status = true });
+        var getCustomer =
+            await connection.QueryAsync<CustomerModel>("select id, name from customer where Status = @Status",
+                new { Status = 1 });
+        var getDevice = await connection.QueryAsync<DeviceModel>("select id, name from device where Status = @Status",
+            new { Status = true });
+        var getRecById =
+            await connection.QueryAsync<AccountModel>("select id, name from users where isactive = @Status",
+                new { Status = true });
 
         ViewBag.getCustomer = getCustomer;
         ViewBag.getDevice = getDevice;
@@ -37,9 +42,15 @@ public class TicketController : Controller
         if (!ModelState.IsValid)
         {
             using var connection = _dbConnectionProvider.CreateConnection();
-            var getCustomer = await connection.QueryAsync<CustomerModel>("select id, name from customer where Status = @Status", new { Status = 1 });
-            var getDevice = await connection.QueryAsync<DeviceModel>("select id, name from device where Status = @Status", new { Status = true });
-            var getRecById = await connection.QueryAsync<AccountModel>("select id, name from users where isactive = @Status", new { Status = true });
+            var getCustomer =
+                await connection.QueryAsync<CustomerModel>("select id, name from customer where Status = @Status",
+                    new { Status = 1 });
+            var getDevice =
+                await connection.QueryAsync<DeviceModel>("select id, name from device where Status = @Status",
+                    new { Status = true });
+            var getRecById =
+                await connection.QueryAsync<AccountModel>("select id, name from users where isactive = @Status",
+                    new { Status = true });
 
             ViewBag.getCustomer = getCustomer;
             ViewBag.getDevice = getDevice;
@@ -108,7 +119,8 @@ public class TicketController : Controller
                     INNER JOIN technician tech ON t.technicianid = tech.id
                     WHERE t.ticketstatus = @Status
                     ORDER BY t.id DESC";
-        var tickets = await connection.QueryAsync<TicketReportViewModel>(sql, new { Status = (int)TicketStatus.Assigned });
+        var tickets =
+            await connection.QueryAsync<TicketReportViewModel>(sql, new { Status = (int)TicketStatus.Assigned });
         return View(tickets);
     }
 
@@ -127,7 +139,8 @@ public class TicketController : Controller
                     LEFT JOIN technician tech ON t.technicianid = tech.id
                     WHERE t.ticketstatus = 4
                     ORDER BY t.id DESC";
-        var tickets = await connection.QueryAsync<TicketReportViewModel>(sql, new { Statuses = new[] { (int)TicketStatus.Completed, (int)TicketStatus.Delevered } });
+        var tickets = await connection.QueryAsync<TicketReportViewModel>(sql,
+            new { Statuses = new[] { (int)TicketStatus.Completed, (int)TicketStatus.Delevered } });
         return View(tickets);
     }
 
@@ -184,5 +197,35 @@ public class TicketController : Controller
         var statusName = Enum.GetName(typeof(TicketStatus), ticketStatus);
         TempData["Success"] = $"Ticket status updated to {statusName}!";
         return RedirectToAction("Report");
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> Repair(int id, int ticketStatus)
+    {
+        using var connection = _dbConnectionProvider.CreateConnection();
+        await connection.ExecuteAsync("Update tickets set ticketstatus = @TicketStatus where id = @Id",
+            new { Id = id, TicketStatus = ticketStatus });
+        return RedirectToAction("Report");
+    }
+
+
+    [HttpGet]
+    public async Task<IActionResult> Reverse(int id)
+    {
+        using var connection = _dbConnectionProvider.CreateConnection();
+        var reversetkt =  connection.QueryFirstOrDefaultAsync<TicketModel>("Select * from tickets where Id = @Id");
+
+        return View(reversetkt);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Reverse(int id, TicketModel ticketModel)
+    {
+        using var connection = _dbConnectionProvider.CreateConnection();
+        var reverse = "Update tickets Set Status = @Status where Id = @Id";
+         connection.ExecuteAsync(reverse, ticketModel.Id = id);
+         return RedirectToAction("Report");
+
     }
 }
