@@ -10,7 +10,7 @@ public class DeleveryModel
     public DateTime RecDate { get; set; }
     public double Amount { get; set; }
     public string PaymentMethod { get; set; }
-    public DeleveryStatus Status { get; set; } 
+    public DeliveryStatus Status { get; set; } 
     public string Remarks { get; set; }
     
     
