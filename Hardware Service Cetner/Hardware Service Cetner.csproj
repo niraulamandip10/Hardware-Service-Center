@@ -14,6 +14,7 @@
 
     <ItemGroup>
       <Folder Include="Views\Account\" />
+      <Folder Include="Views\Delivery\" />
       <Folder Include="Views\Technician\" />
     </ItemGroup>
 

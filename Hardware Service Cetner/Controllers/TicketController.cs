@@ -62,7 +62,7 @@ public class TicketController : Controller
         using var conn = _dbConnectionProvider.CreateConnection();
 
         var lastId = await conn.QueryFirstOrDefaultAsync<int?>(
-            "SELECT MAX(Id) FROM tickets WHERE ticketstatus = 1");
+            "SELECT MAX(Id) FROM tickets WHERE ticketstatus in (1,2,3,4,5)");
 
         var ticketNo = $"TKT-{DateTime.Now:yyyyMMdd}-{((lastId ?? 0) + 1):D4}";
 
@@ -226,7 +226,7 @@ public class TicketController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Complete(int id, TicketModel ticketModel , DeleveryModel deleveryModel)
+    public async Task<IActionResult> Complete(int id, TicketModel ticketModel , DeliveryModel deliveryModel)
     {
         using var connection = _dbConnectionProvider.CreateConnection();
 

@@ -1,0 +1,107 @@
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\bin\Debug\net8.0\appsettings.Development.json
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\bin\Debug\net8.0\appsettings.json
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.staticwebassets.runtime.json
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.exe
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.deps.json
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.runtimeconfig.json
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.dll
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.pdb
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\bin\Debug\net8.0\Dapper.dll
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\bin\Debug\net8.0\Npgsql.dll
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.csproj.AssemblyReference.cache
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.GeneratedMSBuildEditorConfig.editorconfig
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.AssemblyInfoInputs.cache
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.AssemblyInfo.cs
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.csproj.CoreCompileInputs.cache
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.MvcApplicationPartsAssemblyInfo.cache
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.RazorAssemblyInfo.cache
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.RazorAssemblyInfo.cs
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets.build.json
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets.development.json
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets\msbuild.Hardware Service Cetner.Microsoft.AspNetCore.StaticWebAssets.props
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets\msbuild.build.Hardware Service Cetner.props
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Hardware Service Cetner.props
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Hardware Service Cetner.props
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets.pack.json
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\scopedcss\bundle\Hardware Service Cetner.styles.css
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\scopedcss\projectbundle\Hardware Service Cetner.bundle.scp.css
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\Hardware.7C78E8AB.Up2Date
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.dll
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\refint\Hardware Service Cetner.dll
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.pdb
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.genruntimeconfig.cache
+E:\REPOS\Hardware Service Center\Hardware Service Cetner\Hardware Service Cetner\obj\Debug\net8.0\ref\Hardware Service Cetner.dll
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\appsettings.Development.json
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\appsettings.json
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.staticwebassets.runtime.json
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.exe
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.deps.json
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.runtimeconfig.json
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.dll
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.pdb
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Dapper.dll
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Npgsql.dll
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.csproj.AssemblyReference.cache
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.GeneratedMSBuildEditorConfig.editorconfig
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.AssemblyInfoInputs.cache
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.AssemblyInfo.cs
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.csproj.CoreCompileInputs.cache
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.MvcApplicationPartsAssemblyInfo.cache
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.RazorAssemblyInfo.cache
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.RazorAssemblyInfo.cs
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.sourcelink.json
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets.build.json
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets.development.json
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets\msbuild.Hardware Service Cetner.Microsoft.AspNetCore.StaticWebAssets.props
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets\msbuild.build.Hardware Service Cetner.props
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Hardware Service Cetner.props
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Hardware Service Cetner.props
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets.pack.json
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\scopedcss\bundle\Hardware Service Cetner.styles.css
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\scopedcss\projectbundle\Hardware Service Cetner.bundle.scp.css
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware.7C78E8AB.Up2Date
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.dll
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\refint\Hardware Service Cetner.dll
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.pdb
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.genruntimeconfig.cache
+D:\Personal\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\ref\Hardware Service Cetner.dll
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.csproj.AssemblyReference.cache
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.GeneratedMSBuildEditorConfig.editorconfig
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.AssemblyInfoInputs.cache
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\appsettings.Development.json
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\appsettings.json
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.staticwebassets.runtime.json
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.exe
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.deps.json
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.runtimeconfig.json
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.dll
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Hardware Service Cetner.pdb
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Dapper.dll
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\Npgsql.dll
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.AssemblyInfo.cs
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.csproj.CoreCompileInputs.cache
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.MvcApplicationPartsAssemblyInfo.cache
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.RazorAssemblyInfo.cache
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.RazorAssemblyInfo.cs
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.sourcelink.json
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets.build.json
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets.development.json
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets\msbuild.Hardware Service Cetner.Microsoft.AspNetCore.StaticWebAssets.props
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets\msbuild.build.Hardware Service Cetner.props
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Hardware Service Cetner.props
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Hardware Service Cetner.props
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\staticwebassets.pack.json
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\scopedcss\bundle\Hardware Service Cetner.styles.css
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\scopedcss\projectbundle\Hardware Service Cetner.bundle.scp.css
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware.7C78E8AB.Up2Date
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.dll
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\refint\Hardware Service Cetner.dll
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.pdb
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\Hardware Service Cetner.genruntimeconfig.cache
+E:\REPOS\Hardware-Service-Center\Hardware Service Cetner\obj\Debug\net8.0\ref\Hardware Service Cetner.dll
