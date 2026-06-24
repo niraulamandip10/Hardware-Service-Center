@@ -1,99 +1,25 @@
 ﻿@model IEnumerable<AccountModel>
 
+
+
 @{
+
     ViewData["Title"] = "Home Page";
+
 }
+
+
 
 @if (TempData["Success"] != null)
+
 {
+
     <div class="alert alert-success alert-dismissible fade show rounded-3 shadow-sm" role="alert">
+
         <i class="bi bi-check-circle-fill me-2"></i>@TempData["Success"]
+
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
     </div>
+
 }
-
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0"><i class="bi bi-people-fill me-2"></i>All Accounts</h2>
-    <a asp-controller="Account" asp-action="Create" class="btn btn-primary btn-lg">
-        <i class="bi bi-person-plus-fill me-1"></i> Add New Account
-    </a>
-</div>
-
-<div class="card shadow border-0 rounded-4">
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-primary">
-                    <tr>
-                        <th class="ps-4">S.N</th>
-                        <th>@Html.DisplayNameFor(m => m.Name)</th>
-                        <th>@Html.DisplayNameFor(m => m.Email)</th>
-                        <th>@Html.DisplayNameFor(m => m.Phone)</th>
-                        <th>@Html.DisplayNameFor(m => m.Username)</th>
-                        <th>@Html.DisplayNameFor(m => m.RegistrationDate)</th>
-                        <th class="text-center">@Html.DisplayNameFor(m => m.IsActive)</th>
-                        <th class="text-center pe-4">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Any())
-                    {
-                        var i = 1;
-                        foreach (var account in Model)
-                        {
-                            <tr>
-                                <td class="fw-semibold ps-4 text-muted">@(i++)</td>
-                                <td class="fw-medium">@account.Name</td>
-                                <td>@(account.Email ?? "-")</td>
-                                <td>@(account.Phone ?? "-")</td>
-                                <td>@account.Username</td>
-                                <td>@account.RegistrationDate.ToString("yyyy-MM-dd")</td>
-                                <td class="text-center">
-                                    @if (account.IsActive)
-                                    {
-                                        <form asp-action="Deactivate" asp-controller="Account" method="post" asp-route-id="@account.Id" class="d-inline toggle-status">
-                                            <button type="submit" class="btn btn-sm btn-outline-success rounded-pill fw-semibold px-3" title="Click to deactivate"
-                                                    onclick="return confirm('Deactivate this account?')">
-                                                <i class="bi bi-toggle-on me-1"></i> Active
-                                            </button>
-                                        </form>
-                                    }
-                                    else
-                                    {
-                                        <form asp-action="Activate" asp-controller="Account" method="post" asp-route-id="@account.Id" class="d-inline toggle-status">
-                                            <button type="submit" class="btn btn-sm btn-outline-secondary rounded-pill fw-semibold px-3" title="Click to activate"
-                                                    onclick="return confirm('Activate this account?')">
-                                                <i class="bi bi-toggle-off me-1"></i> Inactive
-                                            </button>
-                                        </form>
-                                    }
-                                </td>
-                                <td class="text-center pe-4">
-                                    <a asp-controller="Account" asp-action="Edit" asp-route-id="@account.Id" class="btn btn-sm btn-outline-warning me-1" title="Edit">
-                                        <i class="bi bi-pencil-fill"></i>
-                                    </a>
-                                    <form asp-controller="Account" asp-action="Delete" method="post" asp-route-id="@account.Id" class="d-inline">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                onclick="return confirm('Are you sure you want to delete this account?')" title="Delete">
-                                            <i class="bi bi-trash-fill"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="8" class="text-center py-5 text-muted">
-                                <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-                                No accounts found.
-                                <a asp-controller="Account" asp-action="Create" class="d-block mt-2">Create the first account</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
