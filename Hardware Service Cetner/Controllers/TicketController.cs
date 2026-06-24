@@ -93,7 +93,7 @@ public class TicketController : Controller
         var sql = @"SELECT t.id, t.ticketno, t.customerid, t.deviceid, t.technicianid,
                     t.ticketdescription, t.recdate, t.recbyid, t.ticketstatus,
                     c.name AS customername, d.name AS devicename,
-                    u.name AS receivedbyname, tech.name AS technicname
+                    u.name AS receivedbyname, tech.name AS technicianname
                     FROM tickets t
                     LEFT JOIN customer c ON t.customerid = c.id
                     LEFT JOIN device d ON t.deviceid = d.id
@@ -131,16 +131,18 @@ public class TicketController : Controller
         var sql = @"SELECT t.id, t.ticketno, t.customerid, t.deviceid, t.technicianid,
                     t.ticketdescription, t.recdate, t.recbyid, t.ticketstatus,
                     c.name AS customername, d.name AS devicename,
-                    u.name AS receivedbyname, tech.name AS technicname
+                    u.name AS receivedbyname, tech.name AS technicianname,
+                    dv.amount, dv.paymentmethod
                     FROM tickets t
                     LEFT JOIN customer c ON t.customerid = c.id
                     LEFT JOIN device d ON t.deviceid = d.id
                     LEFT JOIN users u ON t.recbyid = u.id
                     LEFT JOIN technician tech ON t.technicianid = tech.id
-                    WHERE t.ticketstatus = 4
+                    LEFT JOIN delevery dv ON t.id = dv.ticketid
+                    WHERE t.ticketstatus IN (@Completed, @Delevered)
                     ORDER BY t.id DESC";
         var tickets = await connection.QueryAsync<TicketReportViewModel>(sql,
-            new { Statuses = new[] { (int)TicketStatus.Completed, (int)TicketStatus.Delevered } });
+            new { Completed = (int)TicketStatus.Completed, Delevered = (int)TicketStatus.Delevered });
         return View(tickets);
     }
 
@@ -210,35 +212,77 @@ public class TicketController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Complete(int id, int ticketStatus)
+    public async Task<IActionResult> Complete(int id)
     {
         using var connection = _dbConnectionProvider.CreateConnection();
-        var completeStatus = await connection.QueryFirstAsync<TicketModel>("Select * from  tickets where Id = @Id and  ticketstatus = @TicketStatus",
+
+        var sql = @"SELECT t.id, t.ticketno, t.customerid, t.deviceid, t.technicianid,
+                    t.ticketdescription, t.recdate, t.recbyid, t.ticketstatus,
+                    c.name AS customername, d.name AS devicename,
+                    u.name AS receivedbyname, tech.name AS technicname
+                    FROM tickets t
+                    LEFT JOIN customer c ON t.customerid = c.id
+                    LEFT JOIN device d ON t.deviceid = d.id
+                    LEFT JOIN users u ON t.recbyid = u.id
+                    LEFT JOIN technician tech ON t.technicianid = tech.id
+                    WHERE t.id = @Id AND t.ticketstatus = @TicketStatus";
+
+        var ticket = await connection.QueryFirstOrDefaultAsync<TicketReportViewModel>(sql,
             new { Id = id, TicketStatus = (int)TicketStatus.Repairing });
 
-        if (completeStatus == null)
+        if (ticket == null)
+        {
+            TempData["Error"] = "Ticket not found or not in Repairing status.";
+            return RedirectToAction("Report");
+        }
+
+        return View(ticket);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Complete(int id, double Amount, string? Remarks)
+    {
+        using var connection = _dbConnectionProvider.CreateConnection();
+
+        if (Amount <= 0)
+        {
+            TempData["Error"] = "Please enter a valid amount.";
+            return RedirectToAction("Complete", new { id });
+        }
+
+        var ticket = await connection.QueryFirstOrDefaultAsync<TicketModel>(
+            "SELECT id, recbyid FROM tickets WHERE id = @Id", new { Id = id });
+
+        if (ticket == null)
         {
             TempData["Error"] = "Ticket not found.";
             return RedirectToAction("Report");
         }
-        
-        return View(completeStatus);
-    }
 
-    [HttpPost]
-    public async Task<IActionResult> Complete(int id, TicketModel ticketModel , DeliveryModel deliveryModel)
-    {
-        using var connection = _dbConnectionProvider.CreateConnection();
+        var existing = await connection.QueryFirstOrDefaultAsync<int>(
+            "SELECT COUNT(1) FROM delevery WHERE ticketid = @TicketId",
+            new { TicketId = id });
 
-        if (ModelState.IsValid)
+        if (existing > 0)
         {
-            var complete = "Insert into delevery set (TicketId,UserId,RecDate,Amount , Remarks) values (@Id,@UserId,@RecDate,@Amount , @Remarks)";
-            await connection.ExecuteAsync(complete, ticketModel);
-            var updatestatus = "Update  tickets set ticketstatus = @TicketStatus where id = @Id" ;
-            await connection.ExecuteAsync(updatestatus, new {TicketStatus = (int)TicketStatus.Completed});
+            await connection.ExecuteAsync(
+                "UPDATE delevery SET amount = @Amount, remarks = @Remarks WHERE ticketid = @TicketId",
+                new { TicketId = id, Amount, Remarks });
         }
+        else
+        {
+            await connection.ExecuteAsync(
+                "INSERT INTO delevery (ticketid, userid, recdate, amount, status, remarks) VALUES (@TicketId, @UserId, @RecDate, @Amount, @Status, @Remarks)",
+                new { TicketId = id, UserId = ticket.RecById, RecDate = DateTime.Now, Amount, Status = (int)DeliveryStatus.pendint, Remarks });
+        }
+
+        await connection.ExecuteAsync(
+            "UPDATE tickets SET ticketstatus = @TicketStatus WHERE id = @Id",
+            new { Id = id, TicketStatus = (int)TicketStatus.Completed });
+
+        TempData["Success"] = "Ticket completed successfully! Amount and remarks saved.";
+
         return RedirectToAction("Report");
-        
     }
 
     [HttpGet]

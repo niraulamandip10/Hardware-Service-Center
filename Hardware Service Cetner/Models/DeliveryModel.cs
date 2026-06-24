@@ -5,8 +5,8 @@ namespace Hardware_Service_Cetner.Models;
 public class DeliveryModel
 {
     public int Id { get; set; }
-    public int Ticket_id { get; set; }
-    public int User_id { get; set; }
+    public int TicketId { get; set; }
+    public int UserId { get; set; }
     public DateTime RecDate { get; set; }
     public double Amount { get; set; }
     public string? PaymentMethod { get; set; }
