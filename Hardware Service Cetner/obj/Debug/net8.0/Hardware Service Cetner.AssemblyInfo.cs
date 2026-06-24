@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Hardware Service Cetner")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+73d72eeba84134c048ec5a088b3c1b74a816fdea")]
 [assembly: System.Reflection.AssemblyProductAttribute("Hardware Service Cetner")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Hardware Service Cetner")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

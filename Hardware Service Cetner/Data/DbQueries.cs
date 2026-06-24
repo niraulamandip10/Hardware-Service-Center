@@ -19,6 +19,8 @@ public class DbQueries
         await connection.ExecuteAsync(CreateTechnicianTable);
         await connection.ExecuteAsync(CreateUserTable);
         await connection.ExecuteAsync(CreateDeviceTable);
+        await connection.ExecuteAsync(CreateTicketTable);
+        await connection.ExecuteAsync(CreateDeleveryTable);
     }
 
     public const string CreateCustomerTable = @"CREATE TABLE IF NOT EXISTS customer (
@@ -64,6 +66,55 @@ CREATE TABLE IF NOT EXISTS users (
     name VARCHAR(100) NOT NULL,
     description varchar(500),
     Status bool not null default true );";
+
+    public const string CreateTicketTable = @"CREATE TABLE IF NOT EXISTS tickets
+(
+    id               int generated always as identity primary key ,
+    ticketno          VARCHAR(50) NOT NULL,
+    customerid        INTEGER     NOT NULL,
+    deviceid          INTEGER     NOT NULL,
+    technicianid      INTEGER,
+    ticketdescription TEXT,
+    recdate           TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    recbyid          INTEGER     NOT NULL,
+    ticketstatus      INTEGER     NOT NULL DEFAULT 1,
+
+    CONSTRAINT fk_ticket_customer
+        FOREIGN KEY (customerid)
+            REFERENCES customer (id),
+
+    CONSTRAINT fk_ticket_device
+        FOREIGN KEY (deviceid)
+            REFERENCES device (id),
+
+    CONSTRAINT fk_ticket_technician
+        FOREIGN KEY (technicianid)
+            REFERENCES technician (id),
+   CONSTRAINT fk_ticket_RecById
+        FOREIGN KEY (recbyid)
+            REFERENCES users (id),
+
+
+    CONSTRAINT chk_ticket_status
+        CHECK (ticketstatus IN (1, 2, 3, 4, 5)))";
+
+
+
+    public const string CreateDeleveryTable =
+        @"CREATE TABLE IF NOT EXISTS delevery (id INT generated always as identity primary key ,
+        ticketid INT NOT NULL,
+        userid INT NOT NULL,
+        recdate timestamp NOT NULL default current_timestamp,
+        amount FLOAT NOT NULL,
+        paymentMethod varchar(100) NULL,
+        status INT NOT NULL default 1,
+        remarks varchar(1000),
+         CONSTRAINT fk_ticket_ticket_id
+        FOREIGN KEY (ticketid)
+            REFERENCES tickets (id),
+        CONSTRAINT fk_ticket_userid
+        FOREIGN KEY (userid)
+            REFERENCES users (id))";
 
 }
 
