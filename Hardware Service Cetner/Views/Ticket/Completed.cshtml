@@ -1,11 +1,12 @@
 @model IEnumerable<TicketReportViewModel>
-
+@using Hardware_Service_Cetner.Enums
 
 @{
     ViewData["Title"] = "Completed Tickets";
     var total = Model.Count();
     var completed = Model.Count(t => t.TicketStatus == TicketStatus.Completed);
     var delivered = Model.Count(t => t.TicketStatus == TicketStatus.Delevered);
+    var totalAmount = Model.Sum(t => t.Amount ?? 0);
 }
 
 @if (TempData["Success"] != null)
@@ -33,7 +34,7 @@
 </div>
 
 <div class="row g-3 mb-4">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card border-0 shadow-sm rounded-4 bg-success bg-gradient text-white">
             <div class="card-body d-flex align-items-center p-4">
                 <div class="rounded-3 bg-white bg-opacity-25 p-3 me-3">
@@ -46,7 +47,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card border-0 shadow-sm rounded-4 bg-dark bg-gradient text-white">
             <div class="card-body d-flex align-items-center p-4">
                 <div class="rounded-3 bg-white bg-opacity-25 p-3 me-3">
@@ -59,7 +60,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card border-0 shadow-sm rounded-4 bg-secondary bg-gradient text-white">
             <div class="card-body d-flex align-items-center p-4">
                 <div class="rounded-3 bg-white bg-opacity-25 p-3 me-3">
@@ -68,6 +69,19 @@
                 <div>
                     <p class="mb-0 fs-6 fw-medium opacity-75">Total</p>
                     <h3 class="mb-0 fw-bold fs-1">@total</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-4 bg-primary bg-gradient text-white">
+            <div class="card-body d-flex align-items-center p-4">
+                <div class="rounded-3 bg-white bg-opacity-25 p-3 me-3">
+                    <i class="bi bi-currency-dollar fs-2"></i>
+                </div>
+                <div>
+                    <p class="mb-0 fs-6 fw-medium opacity-75">Total Amount</p>
+                    <h3 class="mb-0 fw-bold fs-1">@totalAmount.ToString("N2")</h3>
                 </div>
             </div>
         </div>
@@ -102,6 +116,8 @@
                         <th class="py-3 fw-semibold text-muted">Customer</th>
                         <th class="py-3 fw-semibold text-muted">Device</th>
                         <th class="py-3 fw-semibold text-muted">Technician</th>
+                        <th class="text-end py-3 fw-semibold text-muted">Amount</th>
+                        <th class="text-center py-3 fw-semibold text-muted">Payment</th>
                         <th class="text-center py-3 fw-semibold text-muted">Status</th>
                         <th class="text-center py-3 pe-4 fw-semibold text-muted">Date</th>
                     </tr>
@@ -119,9 +135,31 @@
                                         <i class="bi bi-ticket me-1"></i>@ticket.TicketNo
                                     </span>
                                 </td>
-                                <td class="py-3">@ticket.CustomerName</td>
-                                <td class="py-3">@ticket.DeviceName</td>
+                                <td class="py-3"><i class="bi bi-person-fill text-muted me-1"></i>@ticket.CustomerName</td>
+                                <td class="py-3"><i class="bi bi-display text-muted me-1"></i>@ticket.DeviceName</td>
                                 <td class="py-3">@(ticket.TechnicianName ?? "-")</td>
+                                <td class="text-end py-3 fw-semibold">
+                                    @if (ticket.Amount.HasValue)
+                                    {
+                                        <span class="text-dark">₹ @ticket.Amount.Value.ToString("N2")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
+                                <td class="text-center py-3">
+                                    @if (!string.IsNullOrEmpty(ticket.PaymentMethod))
+                                    {
+                                        <span class="badge bg-info bg-opacity-10 text-info rounded-pill px-3 py-2 fw-semibold">
+                                            @ticket.PaymentMethod
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
                                 <td class="text-center py-3">
                                     @if (ticket.TicketStatus == TicketStatus.Completed)
                                     {
@@ -143,7 +181,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="7" class="text-center py-5">
+                            <td colspan="9" class="text-center py-5">
                                 <div class="py-4">
                                     <i class="bi bi-check2-all text-muted" style="font-size: 4rem;"></i>
                                     <h5 class="text-muted mt-3 fw-semibold">No Completed Tickets</h5>

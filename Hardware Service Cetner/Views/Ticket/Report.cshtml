@@ -93,7 +93,7 @@
                     <i class="bi bi-check2-all fs-2"></i>
                 </div>
                 <div>
-                    <p class="mb-0 fs-6 fw-medium opacity-75">Completed</p>
+                    <p class="mb-0 fs-6 fw-medium opacity-75" >Completed</p>
                     <h3 class="mb-0 fw-bold fs-1">@completed</h3>
                 </div>
             </div>
@@ -215,14 +215,11 @@
                                     }
                                     else if (ticket.TicketStatus == TicketStatus.Repairing)
                                     {
-                                        <form asp-action="UpdateStatus" method="post" class="d-inline">
-                                            <input type="hidden" name="id" value="@ticket.Id" />
-                                            <input type="hidden" name="ticketStatus" value="@((int)TicketStatus.Completed)" />
-                                            <button type="submit" class="btn btn-sm btn-outline-success rounded-3 px-3"
-                                                    title="Mark Completed">
-                                                <i class="bi bi-check-circle me-1"></i>Complete
-                                            </button>
-                                        </form>
+                                        <a asp-action="Complete" asp-route-id="@ticket.Id"
+                                           class="btn btn-sm btn-outline-success rounded-3 px-3"
+                                           title="Complete Ticket">
+                                            <i class="bi bi-check-circle me-1"></i>Complete
+                                        </a>
                                     }
                                     else
                                     {

@@ -69,7 +69,7 @@ public class DeliveryController : Controller
             return View("Checkout", existingDelivery);
         }
 
-        return View("Checkout", new DeliveryModel { Ticket_id = ticketId });
+        return View("Checkout", new DeliveryModel { TicketId = ticketId });
     }
 
     [HttpPost]
@@ -77,53 +77,21 @@ public class DeliveryController : Controller
     {
         using var connection = _dbConnectionProvider.CreateConnection();
 
-        if (ModelState.IsValid)
-        {
-            var existing = await connection.QueryFirstOrDefaultAsync<int>(
-                "SELECT COUNT(1) FROM delevery WHERE ticketid = @TicketId",
-                new { TicketId = deliveryModel.Ticket_id });
+        if (!ModelState.IsValid)
+            return View(deliveryModel);
 
-            if (existing > 0)
-            {
-                var updateDlvry = @"UPDATE delevery SET 
-                    userid = @UserId, recdate = @RecDate, amount = @Amount,
-                    paymentmethod = @PaymentMethod, status = @Status, remarks = @Remarks
-                    WHERE ticketid = @TicketId";
-                await connection.ExecuteAsync(updateDlvry, new
-                {
-                    deliveryModel.Ticket_id,
-                    deliveryModel.User_id,
-                    deliveryModel.RecDate,
-                    deliveryModel.Amount,
-                    deliveryModel.PaymentMethod,
-                    Status = (int)DeliveryStatus.delivered,
-                    deliveryModel.Remarks
-                });
-            }
-            else
-            {
-                var insertDlvry = @"INSERT INTO delevery (ticketid, userid, recdate, amount, paymentmethod, status, remarks)
-                    VALUES (@TicketId, @UserId, @RecDate, @Amount, @PaymentMethod, @Status, @Remarks)";
-                await connection.ExecuteAsync(insertDlvry, new
-                {
-                    TicketId = deliveryModel.Ticket_id,
-                    UserId = deliveryModel.User_id,
-                    deliveryModel.RecDate,
-                    deliveryModel.Amount,
-                    deliveryModel.PaymentMethod,
-                    Status = (int)DeliveryStatus.delivered,
-                    deliveryModel.Remarks
-                });
-            }
+        var sql = @"
+        UPDATE delevery
+        SET paymentmethod = @PaymentMethod,
+            remarks = @Remarks,
+            status = @Status
+        WHERE TicketId = @TicketId";
+        deliveryModel.Status = DeliveryStatus.delivered;
 
-            await connection.ExecuteAsync(
-                "UPDATE tickets SET ticketstatus = @Status WHERE id = @Id",
-                new { Id = deliveryModel.Ticket_id, Status = (int)TicketStatus.Delevered });
+        var rows = await connection.ExecuteAsync(sql, deliveryModel);
 
-            TempData["Success"] = "Delivery completed successfully!";
-            return RedirectToAction("Report");
-        }
-        return View(deliveryModel);
+        TempData["Success"] = "Delivery completed successfully!";
+        return RedirectToAction("Report");
     }
 
     [HttpGet]

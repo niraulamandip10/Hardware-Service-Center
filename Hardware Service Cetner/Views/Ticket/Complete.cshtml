@@ -1,0 +1,115 @@
+@model TicketReportViewModel
+@using Hardware_Service_Cetner.Enums
+
+@{
+    ViewData["Title"] = "Complete Ticket";
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show rounded-4 shadow-sm border-start border-danger border-4" role="alert">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
+            <span class="fw-medium">@TempData["Error"]</span>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-1">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-decoration-none"><i class="bi bi-house-fill me-1"></i>Home</a></li>
+            <li class="breadcrumb-item"><a asp-action="Report" class="text-decoration-none"><i class="bi bi-ticket-detailed me-1"></i>Tickets</a></li>
+            <li class="breadcrumb-item active fw-semibold" aria-current="page">Complete</li>
+        </ol>
+    </nav>
+    <h3 class="fw-bold text-dark mb-0"><i class="bi bi-check-circle fs-3 me-2 text-success"></i>Complete Ticket</h3>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-5">
+        <div class="card shadow-sm border-0 rounded-4 h-100">
+            <div class="card-header bg-success text-white rounded-top-4 py-3 px-4">
+                <div class="d-flex align-items-center">
+                    <div class="rounded-3 bg-white bg-opacity-25 p-2 me-3">
+                        <i class="bi bi-ticket-detailed-fill fs-4"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-semibold">Ticket Details</h5>
+                        <span class="small opacity-75">@Model.TicketNo</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <div class="mb-3">
+                    <label class="text-muted small fw-semibold text-uppercase">Customer</label>
+                    <p class="fw-semibold fs-5 mb-0"><i class="bi bi-person-fill text-success me-2"></i>@Model.CustomerName</p>
+                </div>
+                <div class="mb-3">
+                    <label class="text-muted small fw-semibold text-uppercase">Device</label>
+                    <p class="fw-semibold fs-5 mb-0"><i class="bi bi-display text-success me-2"></i>@Model.DeviceName</p>
+                </div>
+                <div class="mb-3">
+                    <label class="text-muted small fw-semibold text-uppercase">Technician</label>
+                    <p class="fw-semibold mb-0"><i class="bi bi-person-gear text-success me-2"></i>@(Model.TechnicianName ?? "-")</p>
+                </div>
+                <div class="mb-3">
+                    <label class="text-muted small fw-semibold text-uppercase">Description</label>
+                    <p class="mb-0">@(Model.TicketDescription ?? "-")</p>
+                </div>
+                <div class="mb-0">
+                    <label class="text-muted small fw-semibold text-uppercase">Received Date</label>
+                    <p class="mb-0"><i class="bi bi-calendar text-success me-2"></i>@Model.RecDate.ToString("dd-MMM-yyyy")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-header bg-primary text-white rounded-top-4 py-3 px-4">
+                <div class="d-flex align-items-center">
+                    <div class="rounded-3 bg-white bg-opacity-25 p-2 me-3">
+                        <i class="bi bi-currency-dollar fs-4"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-semibold">Service Charges</h5>
+                        <span class="small opacity-75">Enter the service amount and remarks</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="Complete" method="post" novalidate>
+                    <input type="hidden" name="id" value="@Model.Id" />
+
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <input name="Amount" class="form-control rounded-3" placeholder="0.00" type="number" step="0.01" required />
+                                <label><i class="bi bi-currency-dollar me-2 text-primary"></i>Amount</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <textarea name="Remarks" class="form-control rounded-3" placeholder="Remarks" style="height: 120px"></textarea>
+                                <label><i class="bi bi-chat-dots me-2 text-primary"></i>Remarks</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <div class="d-flex gap-2 justify-content-end">
+                        <a asp-action="Report" class="btn btn-outline-secondary rounded-3 px-4 py-2">
+                            <i class="bi bi-arrow-left fs-5 me-1 align-middle"></i>Back
+                        </a>
+                        <button type="submit" class="btn btn-success rounded-3 px-5 py-2 shadow-sm">
+                            <i class="bi bi-check-lg fs-5 me-1 align-middle"></i>Complete & Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

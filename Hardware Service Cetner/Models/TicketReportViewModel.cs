@@ -17,4 +17,6 @@ public class TicketReportViewModel
     public int RecById { get; set; }
     public string? ReceivedByName { get; set; }
     public TicketStatus TicketStatus { get; set; }
+    public double? Amount { get; set; }
+    public string? PaymentMethod { get; set; }
 }

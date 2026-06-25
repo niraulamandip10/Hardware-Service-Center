@@ -43,14 +43,14 @@
             </div>
             <div class="card-body p-4">
                 <form asp-action="Checkout" method="post" novalidate>
-                    <input type="hidden" asp-for="Ticket_id" />
+                    <input type="hidden" asp-for="TicketId" value="@Model.TicketId" />
 
                     <div class="row g-4">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input asp-for="User_id" class="form-control rounded-3" placeholder="User ID" />
-                                <label asp-for="User_id"><i class="bi bi-person-badge-fill me-2 text-primary"></i>User ID</label>
-                                <span asp-validation-for="User_id" class="text-danger small mt-1"></span>
+                                <input asp-for="UserId" class="form-control rounded-3" placeholder="User ID" />
+                                <label asp-for="UserId"><i class="bi bi-person-badge-fill me-2 text-primary"></i>User ID</label>
+                                <span asp-validation-for="UserId" class="text-danger small mt-1"></span>
                             </div>
                         </div>
                         <div class="col-md-6">

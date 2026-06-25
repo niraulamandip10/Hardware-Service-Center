@@ -103,7 +103,6 @@
                         <th class="py-3 fw-semibold text-muted">Ticket No</th>
                         <th class="py-3 fw-semibold text-muted">Customer</th>
                         <th class="py-3 fw-semibold text-muted">Device</th>
-                        <th class="py-3 fw-semibold text-muted">Technician</th>
                         <th class="py-3 fw-semibold text-muted">Amount</th>
                         <th class="py-3 fw-semibold text-muted">Payment</th>
                         <th class="text-center py-3 fw-semibold text-muted">Status</th>
@@ -126,18 +125,6 @@
                                 </td>
                                 <td class="py-3"><i class="bi bi-person-fill text-muted me-1"></i>@item.CustomerName</td>
                                 <td class="py-3">@item.DeviceName</td>
-                                <td class="py-3">
-                                    @if (!string.IsNullOrEmpty(item.TechnicianName))
-                                    {
-                                        <span class="badge bg-info bg-opacity-10 text-info rounded-pill px-3 py-2 fw-semibold">
-                                            <i class="bi bi-person-gear me-1"></i>@item.TechnicianName
-                                        </span>
-                                    }
-                                    else
-                                    {
-                                        <span class="text-muted">-</span>
-                                    }
-                                </td>
                                 <td class="py-3 fw-semibold">
                                     @if (item.Amount > 0)
                                     {
