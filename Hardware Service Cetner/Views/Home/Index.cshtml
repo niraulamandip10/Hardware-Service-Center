@@ -1,14 +1,680 @@
-﻿@model IEnumerable<AccountModel>
-
+﻿@model DashboardViewModel
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
 }
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show rounded-3 shadow-sm" role="alert">
-        <i class="bi bi-check-circle-fill me-2"></i>@TempData["Success"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+<div class="dashboard">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="display-6 fw-bold mb-1 text-dark">
+                <i class="bi bi-grid-1x2-fill me-2 text-primary"></i>Dashboard
+            </h1>
+            <p class="text-muted mb-0 small">Hardware Service Center analytics overview</p>
+        </div>
     </div>
-}
 
+    <div class="card border-0 shadow-sm rounded-4 mb-4" id="dateRangeCard">
+        <div class="card-body py-3 px-4">
+            <div class="row align-items-center g-2">
+                <div class="col-auto">
+                    <i class="bi bi-calendar-range fs-5 text-muted me-1"></i>
+                </div>
+                <div class="col">
+                    <div class="d-flex flex-wrap gap-2" id="dateRangeGroup" role="group">
+                        <button type="button" class="btn btn-sm rounded-pill date-range-btn" data-range="today">Today</button>
+                        <button type="button" class="btn btn-sm rounded-pill date-range-btn" data-range="yesterday">Yesterday</button>
+                        <button type="button" class="btn btn-sm rounded-pill date-range-btn active" data-range="last7">Last 7 Days</button>
+                        <button type="button" class="btn btn-sm rounded-pill date-range-btn" data-range="last30">Last 30 Days</button>
+                        <button type="button" class="btn btn-sm rounded-pill date-range-btn" data-range="thismonth">This Month</button>
+                        <button type="button" class="btn btn-sm rounded-pill date-range-btn" data-range="lastmonth">Last Month</button>
+                        <button type="button" class="btn btn-sm rounded-pill date-range-btn" data-range="custom">Custom Range</button>
+                    </div>
+                </div>
+                <div class="col-auto d-none" id="customDateRange">
+                    <div class="d-flex align-items-center gap-2">
+                        <input type="date" class="form-control form-control-sm" id="startDate" style="width:140px">
+                        <span class="text-muted small">to</span>
+                        <input type="date" class="form-control form-control-sm" id="endDate" style="width:140px">
+                        <button type="button" class="btn btn-primary btn-sm rounded-pill px-3" id="applyCustomRange">
+                            <i class="bi bi-check-lg me-1"></i>Apply
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4" id="kpiCards">
+        <div class="col-xl-2 col-lg-4 col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100 kpi-card" data-color="primary">
+                <div class="card-body p-3">
+                    <div class="d-flex align-items-center">
+                        <div class="kpi-icon rounded-3 me-3 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-ticket-detailed fs-4"></i>
+                        </div>
+                        <div class="flex-grow-1 min-w-0">
+                            <p class="mb-0 text-muted small fw-medium text-truncate">Total Tickets</p>
+                            <h3 class="mb-0 fw-bold kpi-value" id="totalTickets">@Model.TotalTickets</h3>
+                        </div>
+                    </div>
+                    <div class="mt-2 d-flex align-items-center text-muted small">
+                        <i class="bi bi-arrow-up-short me-1 text-success"></i>
+                        <span>In selected period</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-4 col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100 kpi-card" data-color="success">
+                <div class="card-body p-3">
+                    <div class="d-flex align-items-center">
+                        <div class="kpi-icon rounded-3 me-3 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-people-fill fs-4"></i>
+                        </div>
+                        <div class="flex-grow-1 min-w-0">
+                            <p class="mb-0 text-muted small fw-medium text-truncate">Total Customers</p>
+                            <h3 class="mb-0 fw-bold kpi-value" id="totalCustomers">@Model.TotalCustomers</h3>
+                        </div>
+                    </div>
+                    <div class="mt-2 d-flex align-items-center text-muted small">
+                        <i class="bi bi-arrow-up-short me-1 text-success"></i>
+                        <span>Served in period</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-4 col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100 kpi-card" data-color="warning">
+                <div class="card-body p-3">
+                    <div class="d-flex align-items-center">
+                        <div class="kpi-icon rounded-3 me-3 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-currency-dollar fs-4"></i>
+                        </div>
+                        <div class="flex-grow-1 min-w-0">
+                            <p class="mb-0 text-muted small fw-medium text-truncate">Total Revenue</p>
+                            <h3 class="mb-0 fw-bold kpi-value" id="totalRevenue">Rs@Model.TotalRevenue.ToString("N2")</h3>
+                        </div>
+                    </div>
+                    <div class="mt-2 d-flex align-items-center text-muted small">
+                        <i class="bi bi-arrow-up-short me-1 text-success"></i>
+                        <span>Rs@Model.AverageRevenuePerTicket.ToString("N2") avg / ticket</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-4 col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100 kpi-card" data-color="info">
+                <div class="card-body p-3">
+                    <div class="d-flex align-items-center">
+                        <div class="kpi-icon rounded-3 me-3 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-person-gear fs-4"></i>
+                        </div>
+                        <div class="flex-grow-1 min-w-0">
+                            <p class="mb-0 text-muted small fw-medium text-truncate">Active Technicians</p>
+                            <h3 class="mb-0 fw-bold kpi-value" id="activeTechnicians">@Model.ActiveTechnicians</h3>
+                        </div>
+                    </div>
+                    <div class="mt-2 d-flex align-items-center text-muted small">
+                        <i class="bi bi-person-check me-1 text-info"></i>
+                        <span>Currently active</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-4 col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100 kpi-card" data-color="purple">
+                <div class="card-body p-3">
+                    <div class="d-flex align-items-center">
+                        <div class="kpi-icon rounded-3 me-3 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-box-seam fs-4"></i>
+                        </div>
+                        <div class="flex-grow-1 min-w-0">
+                            <p class="mb-0 text-muted small fw-medium text-truncate">Ready for Delivery</p>
+                            <h3 class="mb-0 fw-bold kpi-value" id="readyForDelivery">@Model.TicketsReadyForDelivery</h3>
+                        </div>
+                    </div>
+                    <div class="mt-2 d-flex align-items-center text-muted small">
+                        <i class="bi bi-truck me-1 text-purple"></i>
+                        <span>Completed, pending delivery</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-4 col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100 kpi-card" data-color="danger">
+                <div class="card-body p-3">
+                    <div class="d-flex align-items-center">
+                        <div class="kpi-icon rounded-3 me-3 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-credit-card-2-back fs-4"></i>
+                        </div>
+                        <div class="flex-grow-1 min-w-0">
+                            <p class="mb-0 text-muted small fw-medium text-truncate">Pending Payments</p>
+                            <h3 class="mb-0 fw-bold kpi-value" id="pendingPayments">@Model.PendingPayments</h3>
+                        </div>
+                    </div>
+                    <div class="mt-2 d-flex align-items-center text-muted small">
+                        <i class="bi bi-clock me-1 text-danger"></i>
+                        <span>Awaiting payment</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-white rounded-top-4 py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0 fw-bold"><i class="bi bi-graph-up-arrow me-2 text-primary"></i>Tickets Analytics</h5>
+                        <p class="mb-0 text-muted small">Ticket creation, completion, and delivery trends</p>
+                    </div>
+                    <div class="d-flex gap-3 small">
+                        <span class="d-flex align-items-center">
+                            <span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#6366f1"></span> Created
+                        </span>
+                        <span class="d-flex align-items-center">
+                            <span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#10b981"></span> Completed
+                        </span>
+                        <span class="d-flex align-items-center">
+                            <span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#f59e0b"></span> Delivered
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body p-3">
+                    <canvas id="ticketsChart" height="240"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-white rounded-top-4 py-3 px-4 border-bottom">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-currency-exchange me-2 text-warning"></i>Revenue Overview</h5>
+                    <p class="mb-0 text-muted small">Key revenue metrics</p>
+                </div>
+                <div class="card-body p-4 d-flex flex-column justify-content-center">
+                    <div class="text-center mb-3">
+                        <p class="text-muted small fw-medium mb-1">Total Revenue</p>
+                        <h2 class="fw-bold mb-0 display-5 text-dark" id="totalRevenueDisplay">Rs@Model.TotalRevenue.ToString("N2")</h2>
+                    </div>
+                    <div class="row g-2 text-center">
+                        <div class="col-6">
+                            <div class="bg-light rounded-3 p-3">
+                                <p class="text-muted small fw-medium mb-0">Growth</p>
+                                <h4 class="fw-bold mb-0 @(Model.RevenueGrowth >= 0 ? "text-success" : "text-danger")" id="revenueGrowth">
+                                    @(Model.RevenueGrowth >= 0 ? "+" : "")@Model.RevenueGrowth.ToString("N1")%
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="bg-light rounded-3 p-3">
+                                <p class="text-muted small fw-medium mb-0">Avg / Ticket</p>
+                                <h4 class="fw-bold mb-0 text-dark" id="avgRevenuePerTicket">@Model.AverageRevenuePerTicket.ToString("N2")</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <canvas id="miniRevenueChart" height="60"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-white rounded-top-4 py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0 fw-bold"><i class="bi bi-people-fill me-2 text-success"></i>Customer Analytics</h5>
+                        <p class="mb-0 text-muted small">Customer acquisition and retention</p>
+                    </div>
+                    <div class="d-flex gap-3 small">
+                        <span class="d-flex align-items-center">
+                            <span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#6366f1"></span> New
+                        </span>
+                        <span class="d-flex align-items-center">
+                            <span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#f59e0b"></span> Returning
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body p-3">
+                    <div class="row g-2 mb-3 text-center">
+                        <div class="col-4">
+                            <div class="bg-light rounded-3 p-2">
+                                <p class="text-muted small fw-medium mb-0">New</p>
+                                <h4 class="fw-bold mb-0 text-primary" id="newCustomers">@Model.NewCustomers</h4>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-light rounded-3 p-2">
+                                <p class="text-muted small fw-medium mb-0">Returning</p>
+                                <h4 class="fw-bold mb-0 text-warning" id="returningCustomers">@Model.ReturningCustomers</h4>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-light rounded-3 p-2">
+                                <p class="text-muted small fw-medium mb-0">Total</p>
+                                <h4 class="fw-bold mb-0 text-dark" id="totalCustomersDisplay">@Model.TotalCustomers</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <canvas id="customersChart" height="180"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-white rounded-top-4 py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0 fw-bold"><i class="bi bi-trophy-fill me-2 text-purple" style="color:#8b5cf6"></i>Technician Performance</h5>
+                        <p class="mb-0 text-muted small">Ranked by completed work and revenue</p>
+                    </div>
+                </div>
+                <div class="card-body p-3">
+                    <canvas id="technicianChart" height="240"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script id="initialData" type="application/json">@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model, new System.Text.Json.JsonSerializerOptions { PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase }))</script>
+
+@section Scripts {
+    <script>
+        (function () {
+            const COLORS = {
+                primary: '#6366f1',
+                primaryLight: 'rgba(99,102,241,0.15)',
+                success: '#10b981',
+                successLight: 'rgba(16,185,129,0.15)',
+                warning: '#f59e0b',
+                warningLight: 'rgba(245,158,11,0.15)',
+                danger: '#ef4444',
+                info: '#06b6d4',
+                purple: '#8b5cf6',
+                purpleLight: 'rgba(139,92,246,0.15)',
+            };
+
+            const formatter = {
+                format: function (value) {
+                    return 'Rs ' + Number(value).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                }
+            };
+
+            let charts = {};
+
+            function initCharts(data) {
+                if (charts.tickets) charts.tickets.destroy();
+                if (charts.revenueMini) charts.revenueMini.destroy();
+                if (charts.customers) charts.customers.destroy();
+                if (charts.technician) charts.technician.destroy();
+
+                const ctx1 = document.getElementById('ticketsChart').getContext('2d');
+                charts.tickets = new Chart(ctx1, {
+                    type: 'line',
+                    data: {
+                        labels: data.ticketsTrend.labels,
+                        datasets: [
+                            {
+                                label: 'Created',
+                                data: data.ticketsTrend.created,
+                                borderColor: COLORS.primary,
+                                backgroundColor: COLORS.primaryLight,
+                                fill: true,
+                                tension: 0.4,
+                                pointRadius: 2,
+                                pointHoverRadius: 5,
+                                borderWidth: 2,
+                            },
+                            {
+                                label: 'Completed',
+                                data: data.ticketsTrend.completed,
+                                borderColor: COLORS.success,
+                                backgroundColor: COLORS.successLight,
+                                fill: true,
+                                tension: 0.4,
+                                pointRadius: 2,
+                                pointHoverRadius: 5,
+                                borderWidth: 2,
+                            },
+                            {
+                                label: 'Delivered',
+                                data: data.ticketsTrend.delivered,
+                                borderColor: COLORS.warning,
+                                backgroundColor: COLORS.warningLight,
+                                fill: true,
+                                tension: 0.4,
+                                pointRadius: 2,
+                                pointHoverRadius: 5,
+                                borderWidth: 2,
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        animation: { duration: 400 },
+                        interaction: { mode: 'index', intersect: false },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: '#1e293b',
+                                titleColor: '#fff',
+                                bodyColor: '#e2e8f0',
+                                padding: 12,
+                                cornerRadius: 8,
+                                displayColors: true,
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: '#94a3b8', font: { size: 11 }, maxTicksLimit: 12 }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: 'rgba(0,0,0,0.05)' },
+                                ticks: { color: '#94a3b8', font: { size: 11 }, stepSize: 1 }
+                            }
+                        }
+                    }
+                });
+
+                const ctx3 = document.getElementById('miniRevenueChart').getContext('2d');
+                charts.revenueMini = new Chart(ctx3, {
+                    type: 'line',
+                    data: {
+                        labels: data.revenueTrend.labels,
+                        datasets: [{
+                            data: data.revenueTrend.revenue,
+                            borderColor: COLORS.warning,
+                            backgroundColor: COLORS.warningLight,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 0,
+                            borderWidth: 2,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        animation: { duration: 300 },
+                        plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                        scales: {
+                            x: { display: false },
+                            y: { display: false, beginAtZero: true }
+                        },
+                        elements: { point: { radius: 0 } }
+                    }
+                });
+
+                const ctx4 = document.getElementById('customersChart').getContext('2d');
+                charts.customers = new Chart(ctx4, {
+                    type: 'bar',
+                    data: {
+                        labels: data.customerTrend.labels,
+                        datasets: [
+                            {
+                                label: 'New',
+                                data: data.customerTrend.new,
+                                backgroundColor: COLORS.primary,
+                                borderRadius: 4,
+                                barPercentage: 0.6,
+                                categoryPercentage: 0.8,
+                            },
+                            {
+                                label: 'Returning',
+                                data: data.customerTrend.returning,
+                                backgroundColor: COLORS.warning,
+                                borderRadius: 4,
+                                barPercentage: 0.6,
+                                categoryPercentage: 0.8,
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        animation: { duration: 400 },
+                        interaction: { mode: 'index', intersect: false },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: '#1e293b',
+                                titleColor: '#fff',
+                                bodyColor: '#e2e8f0',
+                                padding: 12,
+                                cornerRadius: 8,
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: '#94a3b8', font: { size: 10 }, maxTicksLimit: 8 }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: 'rgba(0,0,0,0.05)' },
+                                ticks: { color: '#94a3b8', font: { size: 10 }, stepSize: 1 }
+                            }
+                        }
+                    }
+                });
+
+                const ctx5 = document.getElementById('technicianChart').getContext('2d');
+                const techData = data.technicianPerformance || [];
+                const techLabels = techData.map(t => t.technicianName);
+                const techCompleted = techData.map(t => t.completedTickets);
+                const techAssigned = techData.map(t => t.totalAssigned);
+                const techRate = techData.map(t => t.completionRate);
+                const techRevenue = techData.map(t => t.revenueGenerated);
+
+                charts.technician = new Chart(ctx5, {
+                    type: 'bar',
+                    data: {
+                        labels: techLabels.length ? techLabels : ['No Data'],
+                        datasets: [
+                            {
+                                label: 'Completed',
+                                data: techLabels.length ? techCompleted : [0],
+                                backgroundColor: COLORS.success,
+                                borderRadius: 4,
+                                barPercentage: 0.5,
+                                categoryPercentage: 0.7,
+                            },
+                            {
+                                label: 'Assigned',
+                                data: techLabels.length ? techAssigned : [0],
+                                backgroundColor: 'rgba(99,102,241,0.25)',
+                                borderRadius: 4,
+                                barPercentage: 0.5,
+                                categoryPercentage: 0.7,
+                            }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        animation: { duration: 400 },
+                        interaction: { mode: 'index', intersect: false },
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: { boxWidth: 12, padding: 12, font: { size: 11 } }
+                            },
+                            tooltip: {
+                                backgroundColor: '#1e293b',
+                                titleColor: '#fff',
+                                bodyColor: '#e2e8f0',
+                                padding: 12,
+                                cornerRadius: 8,
+                                callbacks: {
+                                    afterBody: function (tooltipItems) {
+                                        const idx = tooltipItems[0].dataIndex;
+                                        const t = techData[idx];
+                                        if (t) {
+                                            return [
+                                                'Completion Rate: ' + t.completionRate + '%',
+                                                'Revenue: ' + formatter.format(t.revenueGenerated)
+                                            ];
+                                        }
+                                        return [];
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                grid: { color: 'rgba(0,0,0,0.05)' },
+                                ticks: { color: '#94a3b8', font: { size: 11 }, stepSize: 1 }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { color: '#64748b', font: { size: 10 } }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function updateCards(data) {
+                document.getElementById('totalTickets').textContent = data.totalTickets;
+                document.getElementById('totalCustomers').textContent = data.totalCustomers;
+                document.getElementById('totalRevenue').textContent = formatter.format(data.totalRevenue);
+                document.getElementById('activeTechnicians').textContent = data.activeTechnicians;
+                document.getElementById('readyForDelivery').textContent = data.ticketsReadyForDelivery;
+                document.getElementById('pendingPayments').textContent = data.pendingPayments;
+
+                document.getElementById('totalRevenueDisplay').textContent = formatter.format(data.totalRevenue);
+                const growthEl = document.getElementById('revenueGrowth');
+                const growthVal = data.revenueGrowth;
+                growthEl.textContent = (growthVal >= 0 ? '+' : '') + growthVal.toFixed(1) + '%';
+                growthEl.className = 'fw-bold mb-0 ' + (growthVal >= 0 ? 'text-success' : 'text-danger');
+                document.getElementById('avgRevenuePerTicket').textContent = formatter.format(data.averageRevenuePerTicket);
+                document.getElementById('newCustomers').textContent = data.newCustomers;
+                document.getElementById('returningCustomers').textContent = data.returningCustomers;
+                document.getElementById('totalCustomersDisplay').textContent = data.totalCustomers;
+            }
+
+            function getDateRange(range) {
+                const now = new Date();
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                let start, end;
+
+                switch (range) {
+                    case 'today':
+                        start = new Date(today);
+                        end = new Date(today);
+                        break;
+                    case 'yesterday':
+                        start = new Date(today);
+                        start.setDate(start.getDate() - 1);
+                        end = new Date(today);
+                        end.setDate(end.getDate() - 1);
+                        break;
+                    case 'last7':
+                        start = new Date(today);
+                        start.setDate(start.getDate() - 6);
+                        end = new Date(today);
+                        break;
+                    case 'last30':
+                        start = new Date(today);
+                        start.setDate(start.getDate() - 29);
+                        end = new Date(today);
+                        break;
+                    case 'thismonth':
+                        start = new Date(today.getFullYear(), today.getMonth(), 1);
+                        end = new Date(today);
+                        break;
+                    case 'lastmonth':
+                        start = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+                        end = new Date(today.getFullYear(), today.getMonth(), 0);
+                        break;
+                    case 'custom':
+                        start = new Date(document.getElementById('startDate').value + 'T00:00:00');
+                        end = new Date(document.getElementById('endDate').value + 'T00:00:00');
+                        break;
+                }
+                return { start, end };
+            }
+
+            function formatISODate(date) {
+                return date.getFullYear() + '-' +
+                    String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                    String(date.getDate()).padStart(2, '0');
+            }
+
+            async function loadDashboard(range) {
+                const rangeData = getDateRange(range);
+                const startDate = formatISODate(rangeData.start);
+                const endDate = formatISODate(rangeData.end);
+
+                const buttons = document.querySelectorAll('.date-range-btn');
+                buttons.forEach(b => b.classList.remove('active'));
+                const activeBtn = document.querySelector('.date-range-btn[data-range="' + range + '"]');
+                if (activeBtn) activeBtn.classList.add('active');
+
+                const customEl = document.getElementById('customDateRange');
+                if (range === 'custom') {
+                    customEl.classList.remove('d-none');
+                } else {
+                    customEl.classList.add('d-none');
+                }
+
+                try {
+                    const response = await fetch('/Home/GetDashboardData?startDate=' + startDate + '&endDate=' + endDate);
+                    const data = await response.json();
+                    updateCards(data);
+                    initCharts(data);
+                } catch (err) {
+                    console.error('Dashboard load error:', err);
+                }
+            }
+
+            document.querySelectorAll('.date-range-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const range = this.dataset.range;
+                    if (range === 'custom') {
+                        const customEl = document.getElementById('customDateRange');
+                        customEl.classList.toggle('d-none');
+                        if (!customEl.classList.contains('d-none')) {
+                            document.getElementById('startDate').value = formatISODate(new Date());
+                            document.getElementById('endDate').value = formatISODate(new Date());
+                        }
+                        return;
+                    }
+                    loadDashboard(range);
+                });
+            });
+
+            document.getElementById('applyCustomRange').addEventListener('click', function () {
+                const start = document.getElementById('startDate').value;
+                const end = document.getElementById('endDate').value;
+                if (start && end) {
+                    loadDashboard('custom');
+                }
+            });
+
+            document.getElementById('startDate').addEventListener('change', function () {
+                document.getElementById('endDate').min = this.value;
+            });
+
+            const initialDataEl = document.getElementById('initialData');
+            if (initialDataEl) {
+                try {
+                    const initialData = JSON.parse(initialDataEl.textContent);
+                    updateCards(initialData);
+                    initCharts(initialData);
+                } catch (e) {
+                    console.warn('Failed to parse initial data', e);
+                }
+            }
+        })();
+    </script>
+}
