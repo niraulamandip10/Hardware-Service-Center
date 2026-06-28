@@ -5,40 +5,35 @@
 
 <div class="dashboard">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-start gap-3 mb-4">
         <div>
             <h1 class="display-6 fw-bold mb-1 text-dark">
                 <i class="bi bi-grid-1x2-fill me-2 text-primary"></i>Dashboard
             </h1>
-            <p class="text-muted mb-0 small">Hardware Service Center analytics overview</p>
+            
         </div>
-    </div>
 
-    <div class="card border-0 shadow-sm rounded-4 mb-4" id="dateRangeCard">
-        <div class="card-body py-3 px-4">
-            <div class="row align-items-center g-2">
-                <div class="col-auto">
-                    <i class="bi bi-calendar-range fs-5 text-muted me-1"></i>
-                </div>
-                <div class="col">
-                    <div class="d-flex flex-wrap gap-2" id="dateRangeGroup" role="group">
+        <div class="card border-0 shadow-sm rounded-4 flex-shrink-0" id="dateRangeCard" style="position:relative">
+            <div class="card-body py-2 px-3">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-calendar-range text-muted"></i>
+                    <div class="d-flex flex-wrap gap-1" id="dateRangeGroup" role="group">
                         <button type="button" class="btn btn-sm rounded-pill date-range-btn" data-range="today">Today</button>
-                        <button type="button" class="btn btn-sm rounded-pill date-range-btn" data-range="yesterday">Yesterday</button>
-                        <button type="button" class="btn btn-sm rounded-pill date-range-btn active" data-range="last7">Last 7 Days</button>
-                        <button type="button" class="btn btn-sm rounded-pill date-range-btn" data-range="last30">Last 30 Days</button>
-                        <button type="button" class="btn btn-sm rounded-pill date-range-btn" data-range="thismonth">This Month</button>
-                        <button type="button" class="btn btn-sm rounded-pill date-range-btn" data-range="lastmonth">Last Month</button>
-                        <button type="button" class="btn btn-sm rounded-pill date-range-btn" data-range="custom">Custom Range</button>
+                        <button type="button" class="btn btn-sm rounded-pill date-range-btn active" data-range="last7">7 Days</button>
+                        <button type="button" class="btn btn-sm rounded-pill date-range-btn" data-range="last30">30 Days</button>
+                        <button type="button" class="btn btn-sm rounded-pill date-range-btn" data-range="thismonth">Month</button>
+                        <button type="button" class="btn btn-sm rounded-pill date-range-btn" id="customRangeBtn">Custom</button>
                     </div>
-                </div>
-                <div class="col-auto d-none" id="customDateRange">
-                    <div class="d-flex align-items-center gap-2">
-                        <input type="date" class="form-control form-control-sm" id="startDate" style="width:140px">
-                        <span class="text-muted small">to</span>
-                        <input type="date" class="form-control form-control-sm" id="endDate" style="width:140px">
-                        <button type="button" class="btn btn-primary btn-sm rounded-pill px-3" id="applyCustomRange">
-                            <i class="bi bi-check-lg me-1"></i>Apply
-                        </button>
+                    <div class="date-range-popover d-none" id="customDatePopover">
+                        <div class="d-flex flex-column gap-2">
+                            <label for="startDate">Start Date</label>
+                            <input type="date" class="form-control form-control-sm" id="startDate">
+                            <label for="endDate">End Date</label>
+                            <input type="date" class="form-control form-control-sm" id="endDate">
+                            <button type="button" class="btn btn-primary btn-sm" id="applyCustomRange">
+                                <i class="bi bi-check-lg me-1"></i>Apply
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -93,12 +88,12 @@
                         </div>
                         <div class="flex-grow-1 min-w-0">
                             <p class="mb-0 text-muted small fw-medium text-truncate">Total Revenue</p>
-                            <h3 class="mb-0 fw-bold kpi-value" id="totalRevenue">Rs@Model.TotalRevenue.ToString("N2")</h3>
+                            <h3 class="mb-0 fw-bold kpi-value" id="totalRevenue">Rs @Model.TotalRevenue.ToString("N2")</h3>
                         </div>
                     </div>
                     <div class="mt-2 d-flex align-items-center text-muted small">
                         <i class="bi bi-arrow-up-short me-1 text-success"></i>
-                        <span>Rs@Model.AverageRevenuePerTicket.ToString("N2") avg / ticket</span>
+                        <span>Rs @(Model.AverageRevenuePerTicket.ToString("N2")) avg / ticket</span>
                     </div>
                 </div>
             </div>
@@ -163,83 +158,101 @@
     </div>
 
     <div class="row g-3 mb-4">
-        <div class="col-lg-8">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-header bg-white rounded-top-4 py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
-                    <div>
-                        <h5 class="mb-0 fw-bold"><i class="bi bi-graph-up-arrow me-2 text-primary"></i>Tickets Analytics</h5>
-                        <p class="mb-0 text-muted small">Ticket creation, completion, and delivery trends</p>
+        <div class="col-lg-7">
+            <div class="dashboard-chart-wrapper">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-header bg-white rounded-top-4 py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-0 fw-bold"><i class="bi bi-graph-up-arrow me-2 text-primary"></i>Tickets Analytics</h5>
+                            <p class="mb-0 text-muted small">Ticket creation, completion, and delivery trends</p>
+                        </div>
+                        <div class="d-flex gap-3 small">
+                            <span class="d-flex align-items-center"><span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#0077B6"></span> Created</span>
+                            <span class="d-flex align-items-center"><span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#10b981"></span> Completed</span>
+                            <span class="d-flex align-items-center"><span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#f59e0b"></span> Delivered</span>
+                        </div>
                     </div>
-                    <div class="d-flex gap-3 small">
-                        <span class="d-flex align-items-center">
-                            <span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#6366f1"></span> Created
-                        </span>
-                        <span class="d-flex align-items-center">
-                            <span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#10b981"></span> Completed
-                        </span>
-                        <span class="d-flex align-items-center">
-                            <span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#f59e0b"></span> Delivered
-                        </span>
+                    <div class="card-body-chart">
+                        <div class="chart-container">
+                            <canvas id="ticketsChart"></canvas>
+                        </div>
                     </div>
-                </div>
-                <div class="card-body p-3">
-                    <canvas id="ticketsChart" height="240"></canvas>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-header bg-white rounded-top-4 py-3 px-4 border-bottom">
-                    <h5 class="mb-0 fw-bold"><i class="bi bi-currency-exchange me-2 text-warning"></i>Revenue Overview</h5>
-                    <p class="mb-0 text-muted small">Key revenue metrics</p>
-                </div>
-                <div class="card-body p-4 d-flex flex-column justify-content-center">
-                    <div class="text-center mb-3">
-                        <p class="text-muted small fw-medium mb-1">Total Revenue</p>
-                        <h2 class="fw-bold mb-0 display-5 text-dark" id="totalRevenueDisplay">Rs@Model.TotalRevenue.ToString("N2")</h2>
+        <div class="col-lg-5">
+            <div class="dashboard-chart-wrapper">
+                <div class="card border-0 shadow-sm rounded-4 revenue-compact">
+                    <div class="card-header bg-white rounded-top-4 py-2 px-4 border-bottom">
+                        <h5 class="mb-0 fw-bold fs-6"><i class="bi bi-currency-exchange me-2 text-warning"></i>Revenue Overview</h5>
                     </div>
-                    <div class="row g-2 text-center">
-                        <div class="col-6">
-                            <div class="bg-light rounded-3 p-3">
-                                <p class="text-muted small fw-medium mb-0">Growth</p>
-                                <h4 class="fw-bold mb-0 @(Model.RevenueGrowth >= 0 ? "text-success" : "text-danger")" id="revenueGrowth">
-                                    @(Model.RevenueGrowth >= 0 ? "+" : "")@Model.RevenueGrowth.ToString("N1")%
-                                </h4>
+                    <div class="card-body d-flex flex-column justify-content-center">
+                        <div class="text-center mb-2">
+                            <p class="text-muted small fw-medium mb-0">Total Revenue</p>
+                            <h2 class="fw-bold mb-0 display-5 text-dark" id="totalRevenueDisplay">Rs @Model.TotalRevenue.ToString("N2")</h2>
+                        </div>
+                        <div class="row g-1 text-center">
+                            <div class="col-6">
+                                <div class="bg-light rounded-3 p-2">
+                                    <p class="text-muted small fw-medium mb-0">Growth</p>
+                                    <h4 class="fw-bold mb-0 @(Model.RevenueGrowth >= 0 ? "text-success" : "text-danger")" id="revenueGrowth">
+                                        @(Model.RevenueGrowth >= 0 ? "+" : "")@Model.RevenueGrowth.ToString("N1")%
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-light rounded-3 p-2">
+                                    <p class="text-muted small fw-medium mb-0">Avg / Ticket</p>
+                                    <h4 class="fw-bold mb-0 text-dark" id="avgRevenuePerTicket">@(Model.AverageRevenuePerTicket.ToString("N2"))</h4>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="bg-light rounded-3 p-3">
-                                <p class="text-muted small fw-medium mb-0">Avg / Ticket</p>
-                                <h4 class="fw-bold mb-0 text-dark" id="avgRevenuePerTicket">@Model.AverageRevenuePerTicket.ToString("N2")</h4>
-                            </div>
+                        <div class="mt-2 chart-container" style="height:50px">
+                            <canvas id="miniRevenueChart"></canvas>
                         </div>
-                    </div>
-                    <div class="mt-3">
-                        <canvas id="miniRevenueChart" height="60"></canvas>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row g-3 mb-4">
+   
+    @**<div class="row g-3 mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-header bg-white rounded-top-4 py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0 fw-bold"><i class="bi bi-check2-square me-2 text-success"></i>Completed vs Delivery</h5>
+                        <p class="mb-0 text-muted small">Comparison of completed tickets against actual deliveries</p>
+                    </div>
+                    <div class="d-flex gap-3 small">
+                        <span class="d-flex align-items-center"><span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#10b981"></span> Completed</span>
+                        <span class="d-flex align-items-center"><span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#0077B6"></span> Delivered</span>
+                    </div>
+                </div>
+                <div class="card-body-chart">
+                    <div class="chart-container" style="min-height:280px;">
+                        <canvas id="deliveryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    <div class="row g-3 analytics-row">
         <div class="col-lg-5">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card border-0 shadow-sm rounded-4">
                 <div class="card-header bg-white rounded-top-4 py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
                     <div>
                         <h5 class="mb-0 fw-bold"><i class="bi bi-people-fill me-2 text-success"></i>Customer Analytics</h5>
                         <p class="mb-0 text-muted small">Customer acquisition and retention</p>
                     </div>
                     <div class="d-flex gap-3 small">
-                        <span class="d-flex align-items-center">
-                            <span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#6366f1"></span> New
-                        </span>
-                        <span class="d-flex align-items-center">
-                            <span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#f59e0b"></span> Returning
-                        </span>
+                        <span class="d-flex align-items-center"><span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#0077B6"></span> New</span>
+                        <span class="d-flex align-items-center"><span class="d-inline-block rounded-circle me-1" style="width:10px;height:10px;background:#f59e0b"></span> Returning</span>
                     </div>
                 </div>
-                <div class="card-body p-3">
+                <div class="card-body-scroll">
                     <div class="row g-2 mb-3 text-center">
                         <div class="col-4">
                             <div class="bg-light rounded-3 p-2">
@@ -260,24 +273,29 @@
                             </div>
                         </div>
                     </div>
-                    <canvas id="customersChart" height="180"></canvas>
+                    <div class="chart-container">
+                        <canvas id="customersChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-7">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card border-0 shadow-sm rounded-4">
                 <div class="card-header bg-white rounded-top-4 py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
                     <div>
                         <h5 class="mb-0 fw-bold"><i class="bi bi-trophy-fill me-2 text-purple" style="color:#8b5cf6"></i>Technician Performance</h5>
                         <p class="mb-0 text-muted small">Ranked by completed work and revenue</p>
                     </div>
                 </div>
-                <div class="card-body p-3">
-                    <canvas id="technicianChart" height="240"></canvas>
+                <div class="card-body-scroll">
+                    <div class="chart-container">
+                        <canvas id="technicianChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    
 
 </div>
 
@@ -286,9 +304,10 @@
 @section Scripts {
     <script>
         (function () {
-            const COLORS = {
-                primary: '#6366f1',
-                primaryLight: 'rgba(99,102,241,0.15)',
+            'use strict';
+            var COLORS = {
+                primary: '#0077B6',
+                primaryLight: 'rgba(0,119,182,0.15)',
                 success: '#10b981',
                 successLight: 'rgba(16,185,129,0.15)',
                 warning: '#f59e0b',
@@ -299,337 +318,342 @@
                 purpleLight: 'rgba(139,92,246,0.15)',
             };
 
-            const formatter = {
+            var formatter = {
                 format: function (value) {
                     return 'Rs ' + Number(value).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 }
             };
 
-            let charts = {};
+            var charts = {};
+            var resizeRafs = {};
 
+            /* ---------- Safe canvas access ---------- */
+            function getCanvas(id) {
+                var el = document.getElementById(id);
+                if (!el || !(el instanceof HTMLCanvasElement)) return null;
+                return el;
+            }
+
+            /* ---------- Destroy a chart instance ---------- */
+            function destroyChart(id) {
+                var ch = charts[id];
+                if (ch) {
+                    try { ch.destroy(); } catch (_) {}
+                    delete charts[id];
+                }
+            }
+
+            /* ---------- Create or update a chart ---------- */
+            function createOrUpdateChart(id, config, dataFn) {
+                var canvas = getCanvas(id);
+                if (!canvas) return;
+
+                if (charts[id]) {
+                    var chart = charts[id];
+                    var newData;
+                    try { newData = dataFn(); } catch (_) { return; }
+                    if (!newData || !newData.labels || !newData.datasets) return;
+
+                    chart.data.labels = newData.labels;
+                    newData.datasets.forEach(function (ds, i) {
+                        if (chart.data.datasets[i]) {
+                            chart.data.datasets[i].data = ds.data || [];
+                            chart.data.datasets[i].label = ds.label;
+                            if (ds.backgroundColor) chart.data.datasets[i].backgroundColor = ds.backgroundColor;
+                            if (ds.borderColor) chart.data.datasets[i].borderColor = ds.borderColor;
+                        }
+                    });
+                    chart.update('none');
+                } else {
+                    destroyChart(id);
+                    var ctx = canvas.getContext('2d');
+                    if (!ctx) return;
+                    var cfg;
+                    try { cfg = typeof config === 'function' ? config() : config; } catch (_) { return; }
+                    cfg.options = cfg.options || {};
+                    cfg.options.responsive = true;
+                    cfg.options.maintainAspectRatio = false;
+                    cfg.options.animation = cfg.options.animation || { duration: 300 };
+                    cfg.options.font = { family: "'Inter', system-ui, sans-serif" };
+                    try {
+                        charts[id] = new Chart(ctx, cfg);
+                    } catch (e) {
+                        console.warn('Chart init failed for', id, e);
+                    }
+                }
+            }
+
+            /* ---------- Initialize all charts with data ---------- */
             function initCharts(data) {
-                if (charts.tickets) charts.tickets.destroy();
-                if (charts.revenueMini) charts.revenueMini.destroy();
-                if (charts.customers) charts.customers.destroy();
-                if (charts.technician) charts.technician.destroy();
+                if (!data) return;
 
-                const ctx1 = document.getElementById('ticketsChart').getContext('2d');
-                charts.tickets = new Chart(ctx1, {
-                    type: 'line',
-                    data: {
+                    createOrUpdateChart('ticketsChart', function () {
+                        return {
+                            type: 'line',
+                            data: {
+                                labels: data.ticketsTrend.labels,
+                                datasets: [
+                                    { label: 'Created', data: data.ticketsTrend.created, borderColor: COLORS.primary, backgroundColor: COLORS.primaryLight, fill: true, tension: 0.3, pointRadius: 2, pointHoverRadius: 5, borderWidth: 2 },
+                                    { label: 'Completed', data: data.ticketsTrend.completed, borderColor: COLORS.success, backgroundColor: 'transparent', fill: false, tension: 0.3, pointRadius: 3, pointHoverRadius: 6, borderWidth: 2.5 },
+                                    { label: 'Delivered', data: data.ticketsTrend.delivered, borderColor: COLORS.warning, backgroundColor: 'transparent', fill: false, tension: 0.3, pointRadius: 3, pointHoverRadius: 6, borderWidth: 2.5 }
+                                ]
+                        },
+                        options: {
+                            responsive: true, maintainAspectRatio: false,
+                            animation: { duration: 300 },
+                            interaction: { mode: 'index', intersect: false },
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: { backgroundColor: '#1e293b', titleColor: '#fff', bodyColor: '#e2e8f0', padding: 12, cornerRadius: 8, displayColors: true }
+                            },
+                            scales: {
+                                x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 11 }, maxTicksLimit: 12 } },
+                                y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#94a3b8', font: { size: 11 } } }
+                            }
+                        }
+                    };
+                }, function () {
+                    return {
                         labels: data.ticketsTrend.labels,
                         datasets: [
-                            {
-                                label: 'Created',
-                                data: data.ticketsTrend.created,
-                                borderColor: COLORS.primary,
-                                backgroundColor: COLORS.primaryLight,
-                                fill: true,
-                                tension: 0.4,
-                                pointRadius: 2,
-                                pointHoverRadius: 5,
-                                borderWidth: 2,
-                            },
-                            {
-                                label: 'Completed',
-                                data: data.ticketsTrend.completed,
-                                borderColor: COLORS.success,
-                                backgroundColor: COLORS.successLight,
-                                fill: true,
-                                tension: 0.4,
-                                pointRadius: 2,
-                                pointHoverRadius: 5,
-                                borderWidth: 2,
-                            },
-                            {
-                                label: 'Delivered',
-                                data: data.ticketsTrend.delivered,
-                                borderColor: COLORS.warning,
-                                backgroundColor: COLORS.warningLight,
-                                fill: true,
-                                tension: 0.4,
-                                pointRadius: 2,
-                                pointHoverRadius: 5,
-                                borderWidth: 2,
-                            }
+                            { label: 'Created', data: data.ticketsTrend.created, backgroundColor: COLORS.primaryLight, borderColor: COLORS.primary },
+                            { label: 'Completed', data: data.ticketsTrend.completed, backgroundColor: COLORS.successLight, borderColor: COLORS.success },
+                            { label: 'Delivered', data: data.ticketsTrend.delivered, backgroundColor: COLORS.warningLight, borderColor: COLORS.warning }
                         ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        animation: { duration: 400 },
-                        interaction: { mode: 'index', intersect: false },
-                        plugins: {
-                            legend: { display: false },
-                            tooltip: {
-                                backgroundColor: '#1e293b',
-                                titleColor: '#fff',
-                                bodyColor: '#e2e8f0',
-                                padding: 12,
-                                cornerRadius: 8,
-                                displayColors: true,
-                            }
-                        },
-                        scales: {
-                            x: {
-                                grid: { display: false },
-                                ticks: { color: '#94a3b8', font: { size: 11 }, maxTicksLimit: 12 }
-                            },
-                            y: {
-                                beginAtZero: true,
-                                grid: { color: 'rgba(0,0,0,0.05)' },
-                                ticks: { color: '#94a3b8', font: { size: 11 }, stepSize: 1 }
-                            }
-                        }
-                    }
+                    };
                 });
 
-                const ctx3 = document.getElementById('miniRevenueChart').getContext('2d');
-                charts.revenueMini = new Chart(ctx3, {
-                    type: 'line',
-                    data: {
+                createOrUpdateChart('miniRevenueChart', function () {
+                    return {
+                        type: 'line',
+                        data: {
+                            labels: data.revenueTrend.labels,
+                            datasets: [{
+                                data: data.revenueTrend.revenue, borderColor: COLORS.warning, backgroundColor: COLORS.warningLight, fill: true, tension: 0.4, pointRadius: 0, borderWidth: 2
+                            }]
+                        },
+                        options: {
+                            responsive: true, maintainAspectRatio: false,
+                            animation: false,
+                            plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                            scales: { x: { display: false }, y: { display: false, beginAtZero: true } },
+                            elements: { point: { radius: 0 } }
+                        }
+                    };
+                }, function () {
+                    return {
                         labels: data.revenueTrend.labels,
-                        datasets: [{
-                            data: data.revenueTrend.revenue,
-                            borderColor: COLORS.warning,
-                            backgroundColor: COLORS.warningLight,
-                            fill: true,
-                            tension: 0.4,
-                            pointRadius: 0,
-                            borderWidth: 2,
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        animation: { duration: 300 },
-                        plugins: { legend: { display: false }, tooltip: { enabled: false } },
-                        scales: {
-                            x: { display: false },
-                            y: { display: false, beginAtZero: true }
-                        },
-                        elements: { point: { radius: 0 } }
-                    }
+                        datasets: [{ label: 'Revenue', data: data.revenueTrend.revenue }]
+                    };
                 });
 
-                const ctx4 = document.getElementById('customersChart').getContext('2d');
-                charts.customers = new Chart(ctx4, {
-                    type: 'bar',
-                    data: {
-                        labels: data.customerTrend.labels,
-                        datasets: [
-                            {
-                                label: 'New',
-                                data: data.customerTrend.new,
-                                backgroundColor: COLORS.primary,
-                                borderRadius: 4,
-                                barPercentage: 0.6,
-                                categoryPercentage: 0.8,
-                            },
-                            {
-                                label: 'Returning',
-                                data: data.customerTrend.returning,
-                                backgroundColor: COLORS.warning,
-                                borderRadius: 4,
-                                barPercentage: 0.6,
-                                categoryPercentage: 0.8,
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        animation: { duration: 400 },
-                        interaction: { mode: 'index', intersect: false },
-                        plugins: {
-                            legend: { display: false },
-                            tooltip: {
-                                backgroundColor: '#1e293b',
-                                titleColor: '#fff',
-                                bodyColor: '#e2e8f0',
-                                padding: 12,
-                                cornerRadius: 8,
-                            }
+                createOrUpdateChart('customersChart', function () {
+                    var trend = data.customerTrend || {};
+                    var labels = trend.labels || [];
+                    var newData = trend.new || [];
+                    var returning = trend.returning || [];
+                    return {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                { label: 'New', data: newData, backgroundColor: COLORS.primary, borderRadius: 4, barPercentage: 0.6, categoryPercentage: 0.8 },
+                                { label: 'Returning', data: returning, backgroundColor: COLORS.warning, borderRadius: 4, barPercentage: 0.6, categoryPercentage: 0.8 }
+                            ]
                         },
-                        scales: {
-                            x: {
-                                grid: { display: false },
-                                ticks: { color: '#94a3b8', font: { size: 10 }, maxTicksLimit: 8 }
+                        options: {
+                            responsive: true, maintainAspectRatio: false,
+                            animation: { duration: 300 },
+                            interaction: { mode: 'index', intersect: false },
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: { backgroundColor: '#1e293b', titleColor: '#fff', bodyColor: '#e2e8f0', padding: 12, cornerRadius: 8 }
                             },
-                            y: {
-                                beginAtZero: true,
-                                grid: { color: 'rgba(0,0,0,0.05)' },
-                                ticks: { color: '#94a3b8', font: { size: 10 }, stepSize: 1 }
+                            scales: {
+                                x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 }, maxTicksLimit: 8 } },
+                                y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } }
                             }
                         }
-                    }
+                    };
+                }, function () {
+                    var trend = data.customerTrend || {};
+                    return {
+                        labels: trend.labels || [],
+                        datasets: [
+                            { label: 'New', data: trend.new || [], backgroundColor: COLORS.primary },
+                            { label: 'Returning', data: trend.returning || [], backgroundColor: COLORS.warning }
+                        ]
+                    };
                 });
 
-                const ctx5 = document.getElementById('technicianChart').getContext('2d');
-                const techData = data.technicianPerformance || [];
-                const techLabels = techData.map(t => t.technicianName);
-                const techCompleted = techData.map(t => t.completedTickets);
-                const techAssigned = techData.map(t => t.totalAssigned);
-                const techRate = techData.map(t => t.completionRate);
-                const techRevenue = techData.map(t => t.revenueGenerated);
+                /* Completed vs Delivery chart (grouped bar) */
+                createOrUpdateChart('deliveryChart', function () {
+                    var completed = data.ticketsTrend.completed || [];
+                    var delivered = data.ticketsTrend.delivered || [];
+                    var labels = data.ticketsTrend.labels || [];
+                    var hasData = labels.length > 0;
 
-                charts.technician = new Chart(ctx5, {
-                    type: 'bar',
-                    data: {
-                        labels: techLabels.length ? techLabels : ['No Data'],
-                        datasets: [
-                            {
-                                label: 'Completed',
-                                data: techLabels.length ? techCompleted : [0],
-                                backgroundColor: COLORS.success,
-                                borderRadius: 4,
-                                barPercentage: 0.5,
-                                categoryPercentage: 0.7,
-                            },
-                            {
-                                label: 'Assigned',
-                                data: techLabels.length ? techAssigned : [0],
-                                backgroundColor: 'rgba(99,102,241,0.25)',
-                                borderRadius: 4,
-                                barPercentage: 0.5,
-                                categoryPercentage: 0.7,
-                            }
-                        ]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        animation: { duration: 400 },
-                        interaction: { mode: 'index', intersect: false },
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                                labels: { boxWidth: 12, padding: 12, font: { size: 11 } }
-                            },
-                            tooltip: {
-                                backgroundColor: '#1e293b',
-                                titleColor: '#fff',
-                                bodyColor: '#e2e8f0',
-                                padding: 12,
-                                cornerRadius: 8,
-                                callbacks: {
-                                    afterBody: function (tooltipItems) {
-                                        const idx = tooltipItems[0].dataIndex;
-                                        const t = techData[idx];
-                                        if (t) {
-                                            return [
-                                                'Completion Rate: ' + t.completionRate + '%',
-                                                'Revenue: ' + formatter.format(t.revenueGenerated)
-                                            ];
+                    return {
+                        type: 'bar',
+                        data: {
+                            labels: hasData ? labels : ['No Data'],
+                            datasets: [
+                                { label: 'Completed', data: hasData ? completed : [0], backgroundColor: COLORS.success, borderRadius: 4, barPercentage: 0.35, categoryPercentage: 0.7 },
+                                { label: 'Delivered', data: hasData ? delivered : [0], backgroundColor: COLORS.primary, borderRadius: 4, barPercentage: 0.35, categoryPercentage: 0.7 }
+                            ]
+                        },
+                        options: {
+                            responsive: true, maintainAspectRatio: false,
+                            animation: { duration: 300 },
+                            interaction: { mode: 'index', intersect: false },
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: '#1e293b', titleColor: '#fff', bodyColor: '#e2e8f0', padding: 12, cornerRadius: 8,
+                                    callbacks: {
+                                        label: function (ctx) {
+                                            return ctx.dataset.label + ': ' + ctx.parsed.y;
                                         }
-                                        return [];
                                     }
                                 }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                beginAtZero: true,
-                                grid: { color: 'rgba(0,0,0,0.05)' },
-                                ticks: { color: '#94a3b8', font: { size: 11 }, stepSize: 1 }
                             },
-                            y: {
-                                grid: { display: false },
-                                ticks: { color: '#64748b', font: { size: 10 } }
+                            scales: {
+                                x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 }, maxTicksLimit: 15 } },
+                                y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 }, stepSize: 1 } }
                             }
                         }
-                    }
+                    };
+                }, function () {
+                    var completed = data.ticketsTrend.completed || [];
+                    var delivered = data.ticketsTrend.delivered || [];
+                    var labels = data.ticketsTrend.labels || [];
+                    var hasData = labels.length > 0;
+                    return {
+                        labels: hasData ? labels : ['No Data'],
+                        datasets: [
+                            { label: 'Completed', data: hasData ? completed : [0], backgroundColor: COLORS.success },
+                            { label: 'Delivered', data: hasData ? delivered : [0], backgroundColor: COLORS.primary }
+                        ]
+                    };
                 });
+
+                /* Technician chart (special case - horizontal bar) */
+                (function () {
+                    var canvas = getCanvas('technicianChart');
+                    if (!canvas) return;
+                    var techData = data.technicianPerformance || [];
+                    var techLabels = techData.map(function (t) { return t.technicianName; });
+                    var techCompleted = techData.map(function (t) { return t.completedTickets; });
+                    var techAssigned = techData.map(function (t) { return t.totalAssigned; });
+                    var hasData = techLabels.length > 0;
+
+                    if (charts.technicianChart) {
+                        var ch = charts.technicianChart;
+                        ch.data.labels = hasData ? techLabels : ['No Data'];
+                        if (ch.data.datasets[0]) ch.data.datasets[0].data = hasData ? techCompleted : [0];
+                        if (ch.data.datasets[1]) ch.data.datasets[1].data = hasData ? techAssigned : [0];
+                        ch.update('none');
+                    } else {
+                        destroyChart('technicianChart');
+                        var ctx = canvas.getContext('2d');
+                        if (!ctx) return;
+                        try {
+                            charts.technicianChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: hasData ? techLabels : ['No Data'],
+                                    datasets: [
+                                        { label: 'Completed', data: hasData ? techCompleted : [0], backgroundColor: COLORS.success, borderRadius: 4, barPercentage: 0.5, categoryPercentage: 0.7 },
+                                        { label: 'Assigned', data: hasData ? techAssigned : [0], backgroundColor: 'rgba(0,119,182,0.25)', borderRadius: 4, barPercentage: 0.5, categoryPercentage: 0.7 }
+                                    ]
+                                },
+                                options: {
+                                     responsive: true, maintainAspectRatio: false,
+                                    animation: { duration: 300 },
+                                    interaction: { mode: 'index', intersect: false },
+                                    font: { family: "'Inter', system-ui, sans-serif" },
+                                    plugins: {
+                                        legend: { position: 'top', labels: { boxWidth: 12, padding: 12, font: { size: 11 } } },
+                                        tooltip: {
+                                            backgroundColor: '#1e293b', titleColor: '#fff', bodyColor: '#e2e8f0', padding: 12, cornerRadius: 8,
+                                            callbacks: {
+                                                afterBody: function (tooltipItems) {
+                                                    var idx = tooltipItems[0].dataIndex;
+                                                    var t = techData[idx];
+                                                    if (t) { return ['Completion Rate: ' + t.completionRate + '%', 'Revenue: ' + formatter.format(t.revenueGenerated)]; }
+                                                    return [];
+                                                }
+                                            }
+                                        }
+                                    },
+                                    scales: {
+                                        x: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#94a3b8', font: { size: 11 } } },
+                                        y: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 10 } } }
+                                    }
+                                }
+                            });
+                        } catch (e) {
+                            console.warn('Technician chart init failed', e);
+                        }
+                    }
+                })();
             }
+
 
             function updateCards(data) {
-                document.getElementById('totalTickets').textContent = data.totalTickets;
-                document.getElementById('totalCustomers').textContent = data.totalCustomers;
-                document.getElementById('totalRevenue').textContent = formatter.format(data.totalRevenue);
-                document.getElementById('activeTechnicians').textContent = data.activeTechnicians;
-                document.getElementById('readyForDelivery').textContent = data.ticketsReadyForDelivery;
-                document.getElementById('pendingPayments').textContent = data.pendingPayments;
+                var setText = function (id, val) { var el = document.getElementById(id); if (el) el.textContent = val; };
+                setText('totalTickets', data.totalTickets);
+                setText('totalCustomers', data.totalCustomers);
+                setText('totalRevenue', formatter.format(data.totalRevenue));
+                setText('activeTechnicians', data.activeTechnicians);
+                setText('readyForDelivery', data.ticketsReadyForDelivery);
+                setText('pendingPayments', data.pendingPayments);
+                setText('totalRevenueDisplay', formatter.format(data.totalRevenue));
 
-                document.getElementById('totalRevenueDisplay').textContent = formatter.format(data.totalRevenue);
-                const growthEl = document.getElementById('revenueGrowth');
-                const growthVal = data.revenueGrowth;
-                growthEl.textContent = (growthVal >= 0 ? '+' : '') + growthVal.toFixed(1) + '%';
-                growthEl.className = 'fw-bold mb-0 ' + (growthVal >= 0 ? 'text-success' : 'text-danger');
-                document.getElementById('avgRevenuePerTicket').textContent = formatter.format(data.averageRevenuePerTicket);
-                document.getElementById('newCustomers').textContent = data.newCustomers;
-                document.getElementById('returningCustomers').textContent = data.returningCustomers;
-                document.getElementById('totalCustomersDisplay').textContent = data.totalCustomers;
+                var growthEl = document.getElementById('revenueGrowth');
+                if (growthEl) {
+                    var gv = data.revenueGrowth;
+                    growthEl.textContent = (gv >= 0 ? '+' : '') + gv.toFixed(1) + '%';
+                    growthEl.className = 'fw-bold mb-0 ' + (gv >= 0 ? 'text-success' : 'text-danger');
+                }
+                setText('avgRevenuePerTicket', formatter.format(data.averageRevenuePerTicket));
+                setText('newCustomers', data.newCustomers);
+                setText('returningCustomers', data.returningCustomers);
+                setText('totalCustomersDisplay', data.totalCustomers);
             }
 
+            /* ---------- Date range helpers ---------- */
             function getDateRange(range) {
-                const now = new Date();
-                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-                let start, end;
-
+                var now = new Date();
+                var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                var start, end;
                 switch (range) {
-                    case 'today':
-                        start = new Date(today);
-                        end = new Date(today);
-                        break;
-                    case 'yesterday':
-                        start = new Date(today);
-                        start.setDate(start.getDate() - 1);
-                        end = new Date(today);
-                        end.setDate(end.getDate() - 1);
-                        break;
-                    case 'last7':
-                        start = new Date(today);
-                        start.setDate(start.getDate() - 6);
-                        end = new Date(today);
-                        break;
-                    case 'last30':
-                        start = new Date(today);
-                        start.setDate(start.getDate() - 29);
-                        end = new Date(today);
-                        break;
-                    case 'thismonth':
-                        start = new Date(today.getFullYear(), today.getMonth(), 1);
-                        end = new Date(today);
-                        break;
-                    case 'lastmonth':
-                        start = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-                        end = new Date(today.getFullYear(), today.getMonth(), 0);
-                        break;
-                    case 'custom':
-                        start = new Date(document.getElementById('startDate').value + 'T00:00:00');
-                        end = new Date(document.getElementById('endDate').value + 'T00:00:00');
-                        break;
+                    case 'today': start = new Date(today); end = new Date(today); break;
+                    case 'last7': start = new Date(today); start.setDate(start.getDate() - 6); end = new Date(today); break;
+                    case 'last30': start = new Date(today); start.setDate(start.getDate() - 29); end = new Date(today); break;
+                    case 'thismonth': start = new Date(today.getFullYear(), today.getMonth(), 1); end = new Date(today); break;
                 }
-                return { start, end };
+                return { start: start, end: end };
             }
 
             function formatISODate(date) {
-                return date.getFullYear() + '-' +
-                    String(date.getMonth() + 1).padStart(2, '0') + '-' +
-                    String(date.getDate()).padStart(2, '0');
+                return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
             }
 
+            /* ---------- Load dashboard data via AJAX (presets only) ---------- */
             async function loadDashboard(range) {
-                const rangeData = getDateRange(range);
-                const startDate = formatISODate(rangeData.start);
-                const endDate = formatISODate(rangeData.end);
+                var rangeData = getDateRange(range);
+                var startDate = formatISODate(rangeData.start);
+                var endDate = formatISODate(rangeData.end);
 
-                const buttons = document.querySelectorAll('.date-range-btn');
-                buttons.forEach(b => b.classList.remove('active'));
-                const activeBtn = document.querySelector('.date-range-btn[data-range="' + range + '"]');
+                var buttons = document.querySelectorAll('.date-range-btn');
+                buttons.forEach(function (b) { if (b.id !== 'customRangeBtn') { b.classList.remove('active'); } });
+                var activeBtn = document.querySelector('.date-range-btn[data-range="' + range + '"]');
                 if (activeBtn) activeBtn.classList.add('active');
 
-                const customEl = document.getElementById('customDateRange');
-                if (range === 'custom') {
-                    customEl.classList.remove('d-none');
-                } else {
-                    customEl.classList.add('d-none');
-                }
-
                 try {
-                    const response = await fetch('/Home/GetDashboardData?startDate=' + startDate + '&endDate=' + endDate);
-                    const data = await response.json();
+                    var response = await fetch('/Home/GetDashboardData?startDate=' + startDate + '&endDate=' + endDate);
+                    var data = await response.json();
                     updateCards(data);
                     initCharts(data);
                 } catch (err) {
@@ -637,43 +661,123 @@
                 }
             }
 
-            document.querySelectorAll('.date-range-btn').forEach(btn => {
+          
+            var popoverEl = document.getElementById('customDatePopover');
+
+            function hidePopover() {
+                if (popoverEl) popoverEl.classList.add('d-none');
+                var backdrop = document.querySelector('.popover-backdrop');
+                if (backdrop) backdrop.remove();
+            }
+
+            function showPopover() {
+                if (!popoverEl) return;
+                popoverEl.classList.remove('d-none');
+                // Set default dates
+                var today = formatISODate(new Date());
+                var sevenAgo = formatISODate(new Date(Date.now() - 6 * 86400000));
+                document.getElementById('startDate').value = sevenAgo;
+                document.getElementById('endDate').value = today;
+                // Add backdrop
+                if (!document.querySelector('.popover-backdrop')) {
+                    var backdrop = document.createElement('div');
+                    backdrop.className = 'popover-backdrop';
+                    backdrop.addEventListener('click', hidePopover);
+                    document.body.appendChild(backdrop);
+                }
+            }
+
+            /* ---------- Error display ---------- */
+            function showDateError(msg) {
+                hidePopover();
+                var container = document.getElementById('dateRangeCard');
+                if (!container) return;
+                var existing = document.getElementById('dateRangeError');
+                if (existing) existing.remove();
+                var div = document.createElement('div');
+                div.id = 'dateRangeError';
+                div.className = 'date-range-error px-3 pb-2';
+                div.innerHTML = '<i class="bi bi-exclamation-circle"></i> ' + msg;
+                container.appendChild(div);
+                setTimeout(function () { var e = document.getElementById('dateRangeError'); if (e) e.remove(); }, 4000);
+            }
+
+            /* ---------- Event listeners ---------- */
+            document.querySelectorAll('.date-range-btn').forEach(function (btn) {
+                if (btn.id === 'customRangeBtn') return;
                 btn.addEventListener('click', function () {
-                    const range = this.dataset.range;
-                    if (range === 'custom') {
-                        const customEl = document.getElementById('customDateRange');
-                        customEl.classList.toggle('d-none');
-                        if (!customEl.classList.contains('d-none')) {
-                            document.getElementById('startDate').value = formatISODate(new Date());
-                            document.getElementById('endDate').value = formatISODate(new Date());
-                        }
-                        return;
-                    }
-                    loadDashboard(range);
+                    hidePopover();
+                    loadDashboard(this.dataset.range);
                 });
             });
 
-            document.getElementById('applyCustomRange').addEventListener('click', function () {
-                const start = document.getElementById('startDate').value;
-                const end = document.getElementById('endDate').value;
-                if (start && end) {
-                    loadDashboard('custom');
-                }
-            });
+            var customBtn = document.getElementById('customRangeBtn');
+            if (customBtn) {
+                customBtn.addEventListener('click', function () {
+                    var isOpen = popoverEl && !popoverEl.classList.contains('d-none');
+                    if (isOpen) { hidePopover(); return; }
+                    showPopover();
+                    document.querySelectorAll('.date-range-btn').forEach(function (b) { b.classList.remove('active'); });
+                    customBtn.classList.add('active');
+                });
+            }
 
-            document.getElementById('startDate').addEventListener('change', function () {
-                document.getElementById('endDate').min = this.value;
-            });
+            var applyBtn = document.getElementById('applyCustomRange');
+            if (applyBtn) {
+                applyBtn.addEventListener('click', function () {
+                    var start = document.getElementById('startDate').value;
+                    var end = document.getElementById('endDate').value;
 
-            const initialDataEl = document.getElementById('initialData');
+                    if (!start || !end) {
+                        showDateError('Please select both start and end dates.');
+                        return;
+                    }
+                    if (start > end) {
+                        showDateError('Start date must be before or equal to end date.');
+                        return;
+                    }
+                    // Reload page with custom date range parameters
+                    window.location.href = '?range=custom&startDate=' + start + '&endDate=' + end;
+                });
+            }
+
+            /* ---------- Init from server-rendered data ---------- */
+            var initialDataEl = document.getElementById('initialData');
             if (initialDataEl) {
                 try {
-                    const initialData = JSON.parse(initialDataEl.textContent);
-                    updateCards(initialData);
-                    initCharts(initialData);
+                    var initialData = JSON.parse(initialDataEl.textContent);
+                    if (initialData) {
+                        updateCards(initialData);
+                        initCharts(initialData);
+                    }
                 } catch (e) {
                     console.warn('Failed to parse initial data', e);
                 }
+            }
+
+            /* ---------- Throttled ResizeObserver (prevents flicker loop) ---------- */
+            if (window.ResizeObserver) {
+                var roTargets = document.querySelectorAll('.dashboard-chart-wrapper .chart-container, .analytics-row .chart-container');
+                roTargets.forEach(function (container) {
+                    var lastW = 0, lastH = 0, roTimer = null;
+                    var ro = new ResizeObserver(function (entries) {
+                        var entry = entries[0];
+                        if (!entry) return;
+                        var cr = entry.contentRect;
+                        var w = Math.round(cr.width), h = Math.round(cr.height);
+                        if (w < 10 || h < 10) return;
+                        if (w === lastW && h === lastH) return;
+                        lastW = w; lastH = h;
+                        var canvas = container.querySelector('canvas');
+                        if (!canvas || !canvas.id || !charts[canvas.id]) return;
+                        var id = canvas.id;
+                        if (roTimer) clearTimeout(roTimer);
+                        roTimer = setTimeout(function () {
+                            if (charts[id]) charts[id].resize();
+                        }, 120);
+                    });
+                    ro.observe(container);
+                });
             }
         })();
     </script>

@@ -69,11 +69,13 @@ public class HomeController : Controller
             new { s = start, e = end });
 
         var ticketCounts = await connection.QueryFirstOrDefaultAsync(
-            @"SELECT
-                CAST(COUNT(*) FILTER (WHERE ticketstatus IN (1,2,3,4,5)) AS INTEGER) as CreatedTickets,
-                CAST(COUNT(*) FILTER (WHERE ticketstatus = 4) AS INTEGER) as CompletedTickets,
-                CAST(COUNT(*) FILTER (WHERE ticketstatus = 5) AS INTEGER) as DeliveredTickets
-              FROM tickets WHERE recdate >= @s AND recdate < @e",
+            @"select CAST(COUNT(*) FILTER (WHERE ticketstatus IN (1, 2, 3, 4, 5)) AS INTEGER) as CreatedTickets,
+       CAST(COUNT(*) FILTER (WHERE ticketstatus = 4) AS INTEGER)                as CompletedTickets,
+       CAST(COUNT(*) FILTER (WHERE d.status = 2) AS INTEGER)                    as DeliveredTickets
+from tickets t
+         join delevery d on t.id = d.ticketid
+WHERE t.recdate >= @s
+  AND t.recdate < @e",
             new { s = start, e = end });
 
         int createdCount = ticketCounts?.CreatedTickets ?? 0;
