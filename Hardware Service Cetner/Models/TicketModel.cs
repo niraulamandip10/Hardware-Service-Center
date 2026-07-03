@@ -11,7 +11,7 @@ public class TicketModel
     public int DeviceId { get; set; }
     public int? TechnicianId { get; set; }
     public string TicketDescription { get; set; }
-    public DateTime RecDate { get; set; }
+    public DateTime RecDate { get; set; } = DateTime.Today;
     public int RecById { get; set; }
     public static TicketStatus TicketStatus { get; set; }
 }

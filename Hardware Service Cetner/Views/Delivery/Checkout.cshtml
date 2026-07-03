@@ -46,17 +46,36 @@
                         <input type="hidden" asp-for="TicketId" value="@Model.TicketId" />
 
                         <div class="row g-4">
-                            <div class="col-md-6">
+                            @*<div class="col-md-6">
                                 <div class="form-floating">
                                     <input asp-for="UserId" class="form-control form-control-custom" placeholder="User ID" />
                                     <label asp-for="UserId"><i class="bi bi-person-badge-fill me-2 text-primary"></i>User ID</label>
                                     <span asp-validation-for="UserId" class="text-danger small mt-1"></span>
                                 </div>
-                            </div>
+                            </div>*@
+                            
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input asp-for="RecDate" class="form-control form-control-custom" type="date"
-                                           value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                    <select asp-for="UserId" class="form-select">
+                                        <option value="">-- Select User --</option>
+
+                                        @foreach (var user in ViewBag.getUsers)
+                                        {
+                                            <option value="@user.UserId">@user.UserName</option>
+                                        }
+                                    </select>
+
+                                    <label asp-for="UserId">
+                                        <i class="bi bi-person-badge-fill me-2 text-primary"></i>User
+                                    </label>
+
+                                    <span asp-validation-for="UserId" class="text-danger small mt-1"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="RecDate" class="form-control form-control-custom" type="date" />
                                     <label asp-for="RecDate"><i class="bi bi-calendar-date me-2 text-primary"></i>Delivery Date</label>
                                     <span asp-validation-for="RecDate" class="text-danger small mt-1"></span>
                                 </div>
@@ -73,9 +92,7 @@
                                     <select asp-for="PaymentMethod" class="form-select form-control-custom">
                                         <option value="">-- Select Payment --</option>
                                         <option value="Cash">Cash</option>
-                                        <option value="Card">Card</option>
-                                        <option value="UPI">UPI</option>
-                                        <option value="Bank Transfer">Bank Transfer</option>
+                                        <option value="Bank Transfer">Bank</option>
                                     </select>
                                     <label asp-for="PaymentMethod"><i class="bi bi-credit-card me-2 text-primary"></i>Payment Method</label>
                                     <span asp-validation-for="PaymentMethod" class="text-danger small mt-1"></span>
