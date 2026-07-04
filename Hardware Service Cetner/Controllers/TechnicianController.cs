@@ -1,9 +1,11 @@
 ﻿using Dapper;
 using Hardware_Service_Cetner.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Hardware_Service_Cetner.Models;
 namespace Hardware_Service_Cetner.Controllers;
 
+[Authorize]
 public class TechnicianController : Controller
 {
     private readonly IDbConnectionProvider _dbConnectionProvider;

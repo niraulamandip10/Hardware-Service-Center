@@ -3,10 +3,11 @@ using Hardware_Service_Cetner.Models;
 
 namespace Hardware_Service_Cetner.Controllers;
 using Dapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Hardware_Service_Cetner.Data;
 
-
+[Authorize]
 public class CustomerController : Controller
 {
     private readonly IDbConnectionProvider _dbConnectionProvider;
