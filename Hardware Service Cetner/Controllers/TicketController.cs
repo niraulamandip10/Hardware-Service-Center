@@ -77,7 +77,7 @@ public class TicketController : Controller
             ticketModel.CustomerId,
             ticketModel.DeviceId,
             ticketModel.TicketDescription,
-            RecDate = DateTime.Now,
+            ticketModel.RecDate,
             ticketModel.RecById,
             TicketStatus = (int)TicketStatus.Pending
         });

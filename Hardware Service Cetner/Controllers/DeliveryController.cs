@@ -55,6 +55,8 @@ public class DeliveryController : Controller
               LEFT JOIN technician tech ON t.technicianid = tech.id
               WHERE t.id = @Id", new { Id = ticketId });
 
+        var getUsers = await connection.QueryAsync<DeliveryModel>("select id as UserId , name as UserName from users where isactive = true ");
+
         if (ticket == null)
         {
             TempData["Error"] = "Ticket not found.";
@@ -63,13 +65,16 @@ public class DeliveryController : Controller
 
         var existingDelivery = await connection.QueryFirstOrDefaultAsync<DeliveryModel>(
             "SELECT * FROM delevery WHERE ticketid = @TicketId", new { TicketId = ticketId });
+        ViewBag.getUsers = getUsers;
 
         if (existingDelivery != null)
         {
             return View("Checkout", existingDelivery);
         }
-
-        return View("Checkout", new DeliveryModel { TicketId = ticketId });
+        
+        
+        
+        return View("Checkout", new DeliveryModel { TicketId = ticketId, RecDate = DateTime.Today });
     }
 
     [HttpPost]
@@ -78,17 +83,35 @@ public class DeliveryController : Controller
         using var connection = _dbConnectionProvider.CreateConnection();
 
         if (!ModelState.IsValid)
+        {
+            var getUsers = await connection.QueryAsync<DeliveryModel>("select id as UserId , name as UserName from users where isactive = true ");
+            ViewBag.getUsers = getUsers;
+            if (deliveryModel.RecDate == default)
+                deliveryModel.RecDate = DateTime.Today;
             return View(deliveryModel);
+        }
 
-        var sql = @"
-        UPDATE delevery
-        SET paymentmethod = @PaymentMethod,
-            remarks = @Remarks,
-            status = @Status
-        WHERE TicketId = @TicketId";
         deliveryModel.Status = DeliveryStatus.delivered;
 
-        var rows = await connection.ExecuteAsync(sql, deliveryModel);
+        var existing = await connection.QueryFirstOrDefaultAsync<int?>(
+            "SELECT Id FROM delevery WHERE TicketId = @TicketId", new { deliveryModel.TicketId });
+
+        if (existing.HasValue)
+        {
+            var sql = @"
+            UPDATE delevery
+            SET paymentmethod = @PaymentMethod,
+                remarks = @Remarks,
+                status = @Status
+            WHERE TicketId = @TicketId";
+            await connection.ExecuteAsync(sql, deliveryModel);
+        }
+        else
+        {
+            var sql = @"INSERT INTO delevery (TicketId, UserId, RecDate, Amount, PaymentMethod, Status, Remarks)
+                        VALUES (@TicketId, @UserId, @RecDate, @Amount, @PaymentMethod, @Status, @Remarks)";
+            await connection.ExecuteAsync(sql, deliveryModel);
+        }
 
         TempData["Success"] = "Delivery completed successfully!";
         return RedirectToAction("Report");

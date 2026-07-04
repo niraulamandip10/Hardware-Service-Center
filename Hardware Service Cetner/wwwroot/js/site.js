@@ -1,4 +1,17 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿// ============================================================
+// Hardware Service Center - Global Scripts
+// ============================================================
 
-// Write your JavaScript code.
+(function () {
+  'use strict';
+
+  // Auto-highlight active nav link based on current URL
+  var currentPath = window.location.pathname.toLowerCase();
+  document.querySelectorAll('.navbar-hsc .nav-link').forEach(function (link) {
+    var href = link.getAttribute('href');
+    if (href && href.toLowerCase() !== '#' && currentPath.indexOf(href.toLowerCase()) !== -1) {
+      link.classList.add('active');
+    }
+  });
+
+})();

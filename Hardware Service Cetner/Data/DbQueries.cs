@@ -21,6 +21,7 @@ public class DbQueries
         await connection.ExecuteAsync(CreateDeviceTable);
         await connection.ExecuteAsync(CreateTicketTable);
         await connection.ExecuteAsync(CreateDeleveryTable);
+        await connection.ExecuteAsync(CreatDefaultUser);
     }
 
     public const string CreateCustomerTable = @"CREATE TABLE IF NOT EXISTS customer (
@@ -99,7 +100,6 @@ CREATE TABLE IF NOT EXISTS users (
         CHECK (ticketstatus IN (1, 2, 3, 4, 5)))";
 
 
-
     public const string CreateDeleveryTable =
         @"CREATE TABLE IF NOT EXISTS delevery (id INT generated always as identity primary key ,
         ticketid INT NOT NULL,
@@ -116,6 +116,29 @@ CREATE TABLE IF NOT EXISTS users (
         FOREIGN KEY (userid)
             REFERENCES users (id))";
 
+
+    public const string CreatDefaultUser =
+        @"INSERT INTO users (
+    name,
+    email,
+    phone,
+    address,
+    username,
+    password,
+    registrationdate,
+    isactive
+)
+select 
+           'Admin User',
+           'admin@gmail.com',
+           NULL,
+           NULL,
+           'admin@gmail.com',
+           'AQAAAAIAAYagAAAAEAtDPA0nxfrv+u59BtEMFObUvvyioRTfxXoNkIFVmhv57CgOgI0V2VVOXhnQDmVIPw==',
+           CURRENT_DATE,
+           TRUE
+       WHERE NOT EXISTS (
+           SELECT 1
+           FROM users)
+";
 }
-
-

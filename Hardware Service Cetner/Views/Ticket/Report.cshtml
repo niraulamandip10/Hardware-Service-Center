@@ -9,130 +9,122 @@
     var completed = Model.Count(t => t.TicketStatus == TicketStatus.Completed || t.TicketStatus == TicketStatus.Delevered);
 }
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show rounded-4 shadow-sm border-start border-success border-4" role="alert">
-        <div class="d-flex align-items-center">
-            <i class="bi bi-check-circle-fill fs-4 me-3"></i>
+<div class="page-content">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="theme-alert alert-success mb-4" role="alert">
+            <i class="bi bi-check-circle-fill"></i>
             <span class="fw-medium">@TempData["Success"]</span>
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-}
+    }
 
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger alert-dismissible fade show rounded-4 shadow-sm border-start border-danger border-4" role="alert">
-        <div class="d-flex align-items-center">
-            <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
+    @if (TempData["Error"] != null)
+    {
+        <div class="theme-alert alert-danger mb-4" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i>
             <span class="fw-medium">@TempData["Error"]</span>
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-}
+    }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-1">
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-decoration-none"><i class="bi bi-house-fill me-1"></i>Home</a></li>
-                <li class="breadcrumb-item active fw-semibold" aria-current="page">Tickets</li>
-            </ol>
-        </nav>
-        <h2 class="mb-0 fw-bold text-dark"><i class="bi bi-ticket-detailed fs-3 me-2 text-primary"></i>All Tickets</h2>
+    <div class="theme-header d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-custom mb-1">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index"><i class="bi bi-house-fill me-1"></i>Home</a></li>
+                    <li class="breadcrumb-item active fw-semibold" aria-current="page">Tickets</li>
+                </ol>
+            </nav>
+            <h2 class="fw-bold mb-0"><i class="bi bi-ticket-detailed fs-3 me-2 text-primary"></i>All Tickets</h2>
+        </div>
+        <div class="header-actions">
+            <a asp-action="Create" class="btn-primary-blue">
+                <i class="bi bi-plus-circle-fill"></i>New Ticket
+            </a>
+        </div>
     </div>
-    <a asp-action="Create" class="btn btn-primary btn-lg shadow-sm rounded-3 px-4">
-        <i class="bi bi-plus-circle-fill fs-5 me-2 align-middle"></i>New Ticket
-    </a>
-</div>
 
-<div class="row g-3 mb-4">
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm rounded-4 bg-primary bg-gradient text-white">
-            <div class="card-body d-flex align-items-center p-4">
-                <div class="rounded-3 bg-white bg-opacity-25 p-3 me-3">
-                    <i class="bi bi-ticket-detailed fs-2"></i>
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="theme-stat-card">
+                <div class="stat-body">
+                    <div class="stat-icon" style="background: rgba(0,119,182,0.12); color: #0077B6;">
+                        <i class="bi bi-ticket-detailed"></i>
+                    </div>
+                    <div>
+                        <p class="stat-label">Total Tickets</p>
+                        <p class="stat-value">@total</p>
+                    </div>
                 </div>
-                <div>
-                    <p class="mb-0 fs-6 fw-medium opacity-75">Total Tickets</p>
-                    <h3 class="mb-0 fw-bold fs-1">@total</h3>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="theme-stat-card">
+                <div class="stat-body">
+                    <div class="stat-icon" style="background: rgba(245,158,11,0.12); color: #f59e0b;">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <div>
+                        <p class="stat-label">Pending</p>
+                        <p class="stat-value">@pending</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="theme-stat-card">
+                <div class="stat-body">
+                    <div class="stat-icon" style="background: rgba(6,182,212,0.12); color: #06b6d4;">
+                        <i class="bi bi-person-check"></i>
+                    </div>
+                    <div>
+                        <p class="stat-label">Assigned</p>
+                        <p class="stat-value">@assigned</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="theme-stat-card">
+                <div class="stat-body">
+                    <div class="stat-icon" style="background: rgba(16,185,129,0.12); color: #10b981;">
+                        <i class="bi bi-check2-all"></i>
+                    </div>
+                    <div>
+                        <p class="stat-label">Completed</p>
+                        <p class="stat-value">@completed</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm rounded-4 bg-warning bg-gradient text-white">
-            <div class="card-body d-flex align-items-center p-4">
-                <div class="rounded-3 bg-white bg-opacity-25 p-3 me-3">
-                    <i class="bi bi-clock-history fs-2"></i>
-                </div>
-                <div>
-                    <p class="mb-0 fs-6 fw-medium opacity-75">Pending</p>
-                    <h3 class="mb-0 fw-bold fs-1">@pending</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm rounded-4 bg-info bg-gradient text-white">
-            <div class="card-body d-flex align-items-center p-4">
-                <div class="rounded-3 bg-white bg-opacity-25 p-3 me-3">
-                    <i class="bi bi-person-check fs-2"></i>
-                </div>
-                <div>
-                    <p class="mb-0 fs-6 fw-medium opacity-75">Assigned</p>
-                    <h3 class="mb-0 fw-bold fs-1">@assigned</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm rounded-4 bg-success bg-gradient text-white">
-            <div class="card-body d-flex align-items-center p-4">
-                <div class="rounded-3 bg-white bg-opacity-25 p-3 me-3">
-                    <i class="bi bi-check2-all fs-2"></i>
-                </div>
-                <div>
-                    <p class="mb-0 fs-6 fw-medium opacity-75" >Completed</p>
-                    <h3 class="mb-0 fw-bold fs-1">@completed</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="card shadow-sm border-0 rounded-4">
-    <div class="card-header bg-white rounded-top-4 py-3 px-4 border-bottom">
-        <div class="row align-items-center g-3">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <span class="input-group-text bg-light border-end-0 rounded-start-3">
-                        <i class="bi bi-search fs-5 text-muted"></i>
-                    </span>
-                    <input type="text" id="ticketSearch" class="form-control border-start-0 ps-0 rounded-end-3" placeholder="Search by ticket no, customer, device..." />
-                </div>
+    <div class="theme-table-wrapper">
+        <div class="table-toolbar">
+            <div class="search-box">
+                <i class="bi bi-search"></i>
+                <input type="text" id="ticketSearch" placeholder="Search by ticket no, customer, device..." />
             </div>
-            <div class="col-md-6 text-md-end">
-                <span class="text-muted small fw-medium">
-                    <i class="bi bi-layout-text-window me-1"></i>Showing <strong>@total</strong> ticket(s)
-                </span>
-            </div>
+            <span class="text-muted small fw-medium">
+                <i class="bi bi-layout-text-window me-1"></i>
+                Showing <strong>@total</strong> ticket(s)
+            </span>
         </div>
-    </div>
-    <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0" id="ticketTable">
-                <thead class="table-light">
+            <table class="table-custom" id="ticketTable">
+                <thead>
                     <tr>
-                        <th class="ps-4 py-3 fw-semibold text-muted" style="width: 60px;">S.N</th>
-                        <th class="py-3 fw-semibold text-muted">Ticket No</th>
-                        <th class="py-3 fw-semibold text-muted">Customer</th>
-                        <th class="py-3 fw-semibold text-muted">Device</th>
-                        <th class="py-3 fw-semibold text-muted">Received By</th>
-                        <th class="py-3 fw-semibold text-muted">Assigned To</th>
-                        <th class="text-center py-3 fw-semibold text-muted">Status</th>
-                        <th class="text-center py-3 fw-semibold text-muted">Date</th>
-                        <th class="text-center py-3 pe-4 fw-semibold text-muted" style="width: 200px;">Actions</th>
+                        <th style="width: 50px;">S.N</th>
+                        <th>Ticket No</th>
+                        <th>Customer</th>
+                        <th>Device</th>
+                        <th>Received By</th>
+                        <th>Assigned To</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Date</th>
+                        <th class="text-center" style="width: 180px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -141,20 +133,20 @@
                         var i = 1;
                         foreach (var ticket in Model)
                         {
-                            <tr class="ticket-row">
-                                <td class="fw-semibold ps-4 text-muted py-3">@(i++)</td>
-                                <td class="fw-semibold py-3">
-                                    <span class="d-inline-block bg-primary bg-opacity-10 text-primary rounded-2 px-3 py-1">
+                            <tr>
+                                <td class="fw-semibold text-muted">@(i++)</td>
+                                <td class="fw-semibold">
+                                    <span class="badge-custom badge-pending">
                                         <i class="bi bi-ticket me-1"></i>@ticket.TicketNo
                                     </span>
                                 </td>
-                                <td class="py-3"><i class="bi bi-person-fill text-muted me-1"></i>@ticket.CustomerName</td>
-                                <td class="py-3"><i class="bi bi-display text-muted me-1"></i>@ticket.DeviceName</td>
-                                <td class="py-3">@(ticket.ReceivedByName ?? "-")</td>
-                                <td class="py-3">
+                                <td><i class="bi bi-person-fill text-muted me-1"></i>@ticket.CustomerName</td>
+                                <td><i class="bi bi-display text-muted me-1"></i>@ticket.DeviceName</td>
+                                <td>@(ticket.ReceivedByName ?? "-")</td>
+                                <td>
                                     @if (!string.IsNullOrEmpty(ticket.TechnicianName))
                                     {
-                                        <span class="badge bg-info bg-opacity-10 text-info rounded-pill px-3 py-2 fw-semibold">
+                                        <span class="badge-custom badge-assigned">
                                             <i class="bi bi-person-gear me-1"></i>@ticket.TechnicianName
                                         </span>
                                     }
@@ -163,42 +155,32 @@
                                         <span class="text-muted">-</span>
                                     }
                                 </td>
-                                <td class="text-center py-3">
+                                <td class="text-center">
                                     @switch (ticket.TicketStatus)
                                     {
                                         case TicketStatus.Pending:
-                                            <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-3 py-2 fw-semibold">
-                                                <i class="bi bi-clock me-1"></i>Pending
-                                            </span>
+                                            <span class="badge-custom badge-pending"><i class="bi bi-clock me-1"></i>Pending</span>
                                             break;
                                         case TicketStatus.Assigned:
-                                            <span class="badge bg-info bg-opacity-10 text-info rounded-pill px-3 py-2 fw-semibold">
-                                                <i class="bi bi-person-check me-1"></i>Assigned
-                                            </span>
+                                            <span class="badge-custom badge-assigned"><i class="bi bi-person-check me-1"></i>Assigned</span>
                                             break;
                                         case TicketStatus.Repairing:
-                                            <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 fw-semibold">
-                                                <i class="bi bi-tools me-1"></i>Repairing
-                                            </span>
+                                            <span class="badge-custom badge-repairing"><i class="bi bi-tools me-1"></i>Repairing</span>
                                             break;
                                         case TicketStatus.Completed:
-                                            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 fw-semibold">
-                                                <i class="bi bi-check-circle me-1"></i>Completed
-                                            </span>
+                                            <span class="badge-custom badge-completed"><i class="bi bi-check-circle me-1"></i>Completed</span>
                                             break;
                                         case TicketStatus.Delevered:
-                                            <span class="badge bg-dark bg-opacity-10 text-dark rounded-pill px-3 py-2 fw-semibold">
-                                                <i class="bi bi-box-seam me-1"></i>Delivered
-                                            </span>
+                                            <span class="badge-custom badge-delivered"><i class="bi bi-box-seam me-1"></i>Delivered</span>
                                             break;
                                     }
                                 </td>
-                                <td class="text-center py-3 text-muted small">@ticket.RecDate.ToString("dd-MMM-yy")</td>
-                                <td class="text-center py-3 pe-4">
+                                <td class="text-center text-muted small">@ticket.RecDate.ToString("dd-MMM-yy")</td>
+                                <td class="text-center">
                                     @if (ticket.TicketStatus == TicketStatus.Pending)
                                     {
                                         <a asp-action="Assign" asp-route-id="@ticket.Id"
-                                           class="btn btn-sm btn-outline-info rounded-3 px-3" title="Assign to Technician">
+                                           class="btn-primary-blue btn-sm">
                                             <i class="bi bi-person-plus-fill me-1"></i>Assign
                                         </a>
                                     }
@@ -207,8 +189,7 @@
                                         <form asp-action="UpdateStatus" method="post" class="d-inline">
                                             <input type="hidden" name="id" value="@ticket.Id" />
                                             <input type="hidden" name="ticketStatus" value="@((int)TicketStatus.Repairing)" />
-                                            <button type="submit" class="btn btn-sm btn-outline-primary rounded-3 px-3"
-                                                    title="Start Repair">
+                                            <button type="submit" class="btn-primary-blue btn-sm">
                                                 <i class="bi bi-tools me-1"></i>Repair
                                             </button>
                                         </form>
@@ -216,8 +197,7 @@
                                     else if (ticket.TicketStatus == TicketStatus.Repairing)
                                     {
                                         <a asp-action="Complete" asp-route-id="@ticket.Id"
-                                           class="btn btn-sm btn-outline-success rounded-3 px-3"
-                                           title="Complete Ticket">
+                                           class="btn-primary-blue btn-sm">
                                             <i class="bi bi-check-circle me-1"></i>Complete
                                         </a>
                                     }
@@ -237,7 +217,7 @@
                                     <i class="bi bi-ticket-detailed text-muted" style="font-size: 4rem;"></i>
                                     <h5 class="text-muted mt-3 fw-semibold">No Tickets Found</h5>
                                     <p class="text-muted mb-0">Get started by creating a new ticket.</p>
-                                    <a asp-action="Create" class="btn btn-primary mt-3 rounded-3 px-4">
+                                    <a asp-action="Create" class="btn-primary-blue mt-3">
                                         <i class="bi bi-plus-circle-fill me-2"></i>New Ticket
                                     </a>
                                 </div>
@@ -248,4 +228,17 @@
             </table>
         </div>
     </div>
+
 </div>
+
+@section Scripts {
+    <script>
+        document.getElementById('ticketSearch')?.addEventListener('keyup', function () {
+            const value = this.value.toLowerCase();
+            document.querySelectorAll('#ticketTable tbody tr').forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(value) ? '' : 'none';
+            });
+        });
+    </script>
+}

@@ -6,39 +6,65 @@
     var technicians = ViewBag.Technicians as IEnumerable<TechnicianModel>;
 }
 
-<div class="row justify-content-center">
-    <div class="col-lg-8 col-xl-6">
-        <div class="card shadow border-0 rounded-4">
-            <div class="card-header bg-info text-white rounded-top-4 py-3 px-4">
-                <div class="d-flex align-items-center">
-                    <div class="rounded-3 bg-white bg-opacity-25 p-2 me-3">
-                        <i class="bi bi-person-plus-fill fs-4"></i>
+<div class="page-content">
+
+    <div class="theme-header d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-custom mb-1">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index"><i class="bi bi-house-fill me-1"></i>Home</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Report"><i class="bi bi-ticket-detailed me-1"></i>Tickets</a></li>
+                    <li class="breadcrumb-item active fw-semibold" aria-current="page">Assign</li>
+                </ol>
+            </nav>
+            <h2 class="fw-bold mb-0"><i class="bi bi-person-plus-fill me-2 text-primary"></i>Assign Ticket</h2>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <div class="theme-card h-100">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-3 bg-primary-soft p-2 me-3">
+                        <i class="bi bi-ticket-detailed-fill fs-4 text-primary"></i>
                     </div>
                     <div>
-                        <h5 class="mb-0 fw-semibold">Assign Ticket</h5>
-                        <span class="small opacity-75">@Model.TicketNo</span>
+                        <h5 class="mb-0 fw-semibold">Ticket Details</h5>
+                        <small class="text-muted">@Model.TicketNo</small>
                     </div>
                 </div>
-            </div>
-            <div class="card-body p-4">
-                <div class="row g-3 mb-4">
+                <div class="row g-3">
                     <div class="col-md-6">
-                        <div class="card bg-light border-0 rounded-3 p-3">
-                            <small class="text-muted">Customer</small>
-                            <div class="fw-semibold">@Model.CustomerName</div>
+                        <div class="bg-soft rounded-3 p-3">
+                            <small class="text-muted fw-medium text-uppercase">Customer</small>
+                            <div class="fw-semibold fs-5 mt-1"><i class="bi bi-person-fill text-primary me-2"></i>@Model.CustomerName</div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="card bg-light border-0 rounded-3 p-3">
-                            <small class="text-muted">Device</small>
-                            <div class="fw-semibold">@Model.DeviceName</div>
+                        <div class="bg-soft rounded-3 p-3">
+                            <small class="text-muted fw-medium text-uppercase">Device</small>
+                            <div class="fw-semibold fs-5 mt-1"><i class="bi bi-display text-primary me-2"></i>@Model.DeviceName</div>
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="card bg-light border-0 rounded-3 p-3">
-                            <small class="text-muted">Description</small>
-                            <div class="fw-semibold">@Model.TicketDescription</div>
+                        <div class="bg-soft rounded-3 p-3">
+                            <small class="text-muted fw-medium text-uppercase">Description</small>
+                            <p class="mb-0 mt-1">@Model.TicketDescription</p>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="theme-card">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="rounded-3 bg-primary-soft p-2 me-3">
+                        <i class="bi bi-person-gear fs-4 text-primary"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-semibold">Assign to Technician</h5>
+                        <small class="text-muted">Select a technician and initial status</small>
                     </div>
                 </div>
 
@@ -48,7 +74,7 @@
                     <div class="row g-4">
                         <div class="col-12">
                             <div class="form-floating">
-                                <select name="technicianId" class="form-select rounded-3" required>
+                                <select name="technicianId" class="form-select form-control-custom" required>
                                     <option value="">-- Select Technician --</option>
                                     @if (technicians != null)
                                     {
@@ -58,16 +84,16 @@
                                         }
                                     }
                                 </select>
-                                <label><i class="bi bi-person-gear me-2 text-info"></i>Assign Technician</label>
+                                <label><i class="bi bi-person-gear me-2 text-primary"></i>Assign Technician</label>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-floating">
-                                <select name="ticketStatus" class="form-select rounded-3">
+                                <select name="ticketStatus" class="form-select form-control-custom">
                                     <option value="@((int)TicketStatus.Assigned)">Assigned</option>
                                     <option value="@((int)TicketStatus.Repairing)">Repairing</option>
                                 </select>
-                                <label><i class="bi bi-arrow-right-circle me-2 text-info"></i>Initial Status</label>
+                                <label><i class="bi bi-arrow-right-circle me-2 text-primary"></i>Initial Status</label>
                             </div>
                         </div>
                     </div>
@@ -75,15 +101,16 @@
                     <hr class="my-4" />
 
                     <div class="d-flex gap-2 justify-content-end">
-                        <a asp-action="Report" class="btn btn-outline-secondary rounded-3 px-4 py-2">
-                            <i class="bi bi-arrow-left me-1"></i>Cancel
+                        <a asp-action="Report" class="btn-secondary-outline px-4">
+                            <i class="bi bi-arrow-left"></i>Cancel
                         </a>
-                        <button type="submit" class="btn btn-info text-white rounded-3 px-5 py-2 shadow-sm">
-                            <i class="bi bi-check-lg me-1"></i>Assign
+                        <button type="submit" class="btn-primary-blue px-5">
+                            <i class="bi bi-check-lg"></i>Assign
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
 </div>

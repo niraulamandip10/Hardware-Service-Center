@@ -6,116 +6,108 @@
     var total = Model.Count();
 }
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show rounded-4 shadow-sm border-start border-success border-4" role="alert">
-        <div class="d-flex align-items-center">
-            <i class="bi bi-check-circle-fill fs-4 me-3"></i>
+<div class="page-content">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="theme-alert alert-success mb-4" role="alert">
+            <i class="bi bi-check-circle-fill"></i>
             <span class="fw-medium">@TempData["Success"]</span>
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-}
+    }
 
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger alert-dismissible fade show rounded-4 shadow-sm border-start border-danger border-4" role="alert">
-        <div class="d-flex align-items-center">
-            <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
+    @if (TempData["Error"] != null)
+    {
+        <div class="theme-alert alert-danger mb-4" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i>
             <span class="fw-medium">@TempData["Error"]</span>
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-}
+    }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-1">
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-decoration-none"><i class="bi bi-house-fill me-1"></i>Home</a></li>
-                <li class="breadcrumb-item"><a asp-controller="Delivery" asp-action="Report" class="text-decoration-none"><i class="bi bi-box-seam me-1"></i>Delivery</a></li>
-                <li class="breadcrumb-item active fw-semibold" aria-current="page">Pending Deliveries</li>
-            </ol>
-        </nav>
-        <h2 class="mb-0 fw-bold text-dark"><i class="bi bi-truck fs-3 me-2 text-warning"></i>Pending Deliveries</h2>
+    <div class="theme-header d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-custom mb-1">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index"><i class="bi bi-house-fill me-1"></i>Home</a></li>
+                    <li class="breadcrumb-item"><a asp-controller="Delivery" asp-action="Report"><i class="bi bi-box-seam me-1"></i>Delivery</a></li>
+                    <li class="breadcrumb-item active fw-semibold" aria-current="page">Pending Deliveries</li>
+                </ol>
+            </nav>
+            <h2 class="fw-bold mb-0"><i class="bi bi-truck me-2 text-warning"></i>Pending Deliveries</h2>
+        </div>
+        <div class="header-actions">
+            <a asp-controller="Delivery" asp-action="Report" class="btn-secondary-outline">
+                <i class="bi bi-clock-history"></i>Delivery Report
+            </a>
+        </div>
     </div>
-    <a asp-controller="Delivery" asp-action="Report" class="btn btn-outline-secondary btn-lg shadow-sm rounded-3 px-4">
-        <i class="bi bi-clock-history fs-5 me-2 align-middle"></i>Delivery Report
-    </a>
-</div>
 
-<div class="row g-3 mb-4">
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm rounded-4 bg-warning bg-gradient text-white">
-            <div class="card-body d-flex align-items-center p-4">
-                <div class="rounded-3 bg-white bg-opacity-25 p-3 me-3">
-                    <i class="bi bi-truck fs-2"></i>
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="theme-stat-card">
+                <div class="stat-body">
+                    <div class="stat-icon" style="background: rgba(245,158,11,0.12); color: #f59e0b;">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <div>
+                        <p class="stat-label">Pending Delivery</p>
+                        <p class="stat-value">@total</p>
+                    </div>
                 </div>
-                <div>
-                    <p class="mb-0 fs-6 fw-medium opacity-75">Pending Delivery</p>
-                    <h3 class="mb-0 fw-bold fs-1">@total</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="theme-stat-card">
+                <div class="stat-body">
+                    <div class="stat-icon" style="background: rgba(16,185,129,0.12); color: #10b981;">
+                        <i class="bi bi-check2-all"></i>
+                    </div>
+                    <div>
+                        <p class="stat-label">Completed</p>
+                        <p class="stat-value">@ViewBag.DeliveredCount</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="theme-stat-card">
+                <div class="stat-body">
+                    <div class="stat-icon" style="background: rgba(6,182,212,0.12); color: #06b6d4;">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                    <div>
+                        <p class="stat-label">Ready to Deliver</p>
+                        <p class="stat-value">@total</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm rounded-4 bg-success bg-gradient text-white">
-            <div class="card-body d-flex align-items-center p-4">
-                <div class="rounded-3 bg-white bg-opacity-25 p-3 me-3">
-                    <i class="bi bi-check2-all fs-2"></i>
-                </div>
-                <div>
-                    <p class="mb-0 fs-6 fw-medium opacity-75">Completed</p>
-                    <h3 class="mb-0 fw-bold fs-1">@ViewBag.DeliveredCount</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm rounded-4 bg-info bg-gradient text-white">
-            <div class="card-body d-flex align-items-center p-4">
-                <div class="rounded-3 bg-white bg-opacity-25 p-3 me-3">
-                    <i class="bi bi-box-seam fs-2"></i>
-                </div>
-                <div>
-                    <p class="mb-0 fs-6 fw-medium opacity-75">Ready to Deliver</p>
-                    <h3 class="mb-0 fw-bold fs-1">@total</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="card shadow-sm border-0 rounded-4">
-    <div class="card-header bg-white rounded-top-4 py-3 px-4 border-bottom">
-        <div class="row align-items-center g-3">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <span class="input-group-text bg-light border-end-0 rounded-start-3">
-                        <i class="bi bi-search fs-5 text-muted"></i>
-                    </span>
-                    <input type="text" id="deliverySearch" class="form-control border-start-0 ps-0 rounded-end-3" placeholder="Search by ticket no, customer, device..." />
-                </div>
+    <div class="theme-table-wrapper">
+        <div class="table-toolbar">
+            <div class="search-box">
+                <i class="bi bi-search"></i>
+                <input type="text" id="deliverySearch" placeholder="Search by ticket no, customer, device..." />
             </div>
-            <div class="col-md-6 text-md-end">
-                <span class="text-muted small fw-medium">
-                    <i class="bi bi-layout-text-window me-1"></i>Showing <strong>@total</strong> ticket(s) pending delivery
-                </span>
-            </div>
+            <span class="text-muted small fw-medium">
+                <i class="bi bi-layout-text-window me-1"></i>
+                Showing <strong>@total</strong> ticket(s) pending delivery
+            </span>
         </div>
-    </div>
-    <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0" id="pendingDeliveryTable">
-                <thead class="table-light">
+            <table class="table-custom" id="pendingDeliveryTable">
+                <thead>
                     <tr>
-                        <th class="ps-4 py-3 fw-semibold text-muted" style="width: 60px;">S.N</th>
-                        <th class="py-3 fw-semibold text-muted">Ticket No</th>
-                        <th class="py-3 fw-semibold text-muted">Customer</th>
-                        <th class="py-3 fw-semibold text-muted">Device</th>
-                        <th class="py-3 fw-semibold text-muted">Technician</th>
-                        <th class="text-center py-3 fw-semibold text-muted">Completed Date</th>
-                        <th class="text-center py-3 pe-4 fw-semibold text-muted" style="width: 160px;">Action</th>
+                        <th style="width: 60px;">S.N</th>
+                        <th>Ticket No</th>
+                        <th>Customer</th>
+                        <th>Device</th>
+                        <th>Technician</th>
+                        <th class="text-center">Completed Date</th>
+                        <th class="text-center" style="width: 180px;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -125,18 +117,18 @@
                         foreach (var ticket in Model)
                         {
                             <tr>
-                                <td class="fw-semibold ps-4 text-muted py-3">@(i++)</td>
-                                <td class="fw-semibold py-3">
-                                    <span class="d-inline-block bg-warning bg-opacity-10 text-warning rounded-2 px-3 py-1">
+                                <td class="fw-semibold text-muted">@(i++)</td>
+                                <td class="fw-semibold">
+                                    <span class="badge-custom badge-pending">
                                         <i class="bi bi-ticket me-1"></i>@ticket.TicketNo
                                     </span>
                                 </td>
-                                <td class="py-3"><i class="bi bi-person-fill text-muted me-1"></i>@ticket.CustomerName</td>
-                                <td class="py-3"><i class="bi bi-display text-muted me-1"></i>@ticket.DeviceName</td>
-                                <td class="py-3">
+                                <td><i class="bi bi-person-fill text-muted me-1"></i>@ticket.CustomerName</td>
+                                <td><i class="bi bi-display text-muted me-1"></i>@ticket.DeviceName</td>
+                                <td>
                                     @if (!string.IsNullOrEmpty(ticket.TechnicianName))
                                     {
-                                        <span class="badge bg-info bg-opacity-10 text-info rounded-pill px-3 py-2 fw-semibold">
+                                        <span class="badge-custom badge-assigned">
                                             <i class="bi bi-person-gear me-1"></i>@ticket.TechnicianName
                                         </span>
                                     }
@@ -145,12 +137,19 @@
                                         <span class="text-muted">-</span>
                                     }
                                 </td>
-                                <td class="text-center py-3 text-muted small">@ticket.RecDate.ToString("dd-MMM-yy")</td>
-                                <td class="text-center py-3 pe-4">
-                                    <a asp-action="Checkout" asp-route-ticketId="@ticket.Id"
-                                       class="btn btn-sm btn-warning rounded-3 px-3 fw-semibold shadow-sm">
-                                        <i class="bi bi-truck fs-5 me-1 align-middle"></i>Deliver Now
-                                    </a>
+                                <td class="text-center text-muted small">@ticket.RecDate.ToString("dd-MMM-yy")</td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <a asp-action="Checkout" asp-route-ticketId="@ticket.Id"
+                                           class="btn-primary-blue btn-sm" title="Full checkout form">
+                                            <i class="bi bi-truck"></i> Del.
+                                        </a>
+                                        <button type="button" class="btn-primary-blue btn-sm"
+                                                onclick="openQuickDelivery(@ticket.Id, '@ticket.TicketNo', '@ticket.CustomerName', '@ticket.DeviceName')"
+                                                title="Quick delivery" style="background:#10b981;border-color:#10b981;">
+                                            <i class="bi bi-lightning-charge-fill"></i> Quick
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         }
@@ -160,10 +159,10 @@
                         <tr>
                             <td colspan="7" class="text-center py-5">
                                 <div class="py-4">
-                                    <i class="bi bi-check2-all text-success" style="font-size: 4rem;"></i>
+                                    <i class="bi bi-check2-all" style="font-size: 4rem; color: var(--success);"></i>
                                     <h5 class="text-muted mt-3 fw-semibold">All Clear!</h5>
                                     <p class="text-muted mb-0">No tickets pending delivery at the moment.</p>
-                                    <a asp-controller="Ticket" asp-action="Report" class="btn btn-primary mt-3 rounded-3 px-4">
+                                    <a asp-controller="Ticket" asp-action="Report" class="btn-primary-blue mt-3">
                                         <i class="bi bi-ticket-detailed me-2"></i>View Tickets
                                     </a>
                                 </div>
@@ -172,6 +171,97 @@
                     }
                 </tbody>
             </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- Quick Delivery Modal -->
+<div class="modal fade" id="quickDeliveryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header bg-white border-bottom rounded-top-4 py-3 px-4">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-3" style="background: rgba(0,119,182,0.12); padding: 0.5rem;">
+                        <i class="bi bi-truck fs-5" style="color: #0077B6;"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-bold">Quick Delivery</h5>
+                        <small class="text-muted" id="quickDeliveryTicket">Ticket: </small>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="Checkout" method="post" novalidate>
+                <div class="modal-body px-4 py-3">
+                    <input type="hidden" name="TicketId" id="quickTicketId" value="" />
+
+                    <div class="bg-light rounded-3 p-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="text-muted small fw-medium">Customer</span>
+                            <span class="fw-semibold" id="quickCustomerName">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted small fw-medium">Device</span>
+                            <span class="fw-semibold" id="quickDeviceName">-</span>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <select name="UserId" class="form-select form-control-custom" required>
+                                    <option value="">-- Received By --</option>
+                                    @if (ViewBag.getUserList != null)
+                                    {
+                                        foreach (var user in ViewBag.getUserList)
+                                        {
+                                            <option value="@user.Id">@user.Name</option>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option value="1">Default User</option>
+                                    }
+                                </select>
+                                <label><i class="bi bi-person-badge-fill me-2 text-primary"></i>Received By</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-floating">
+                                <input name="Amount" class="form-control form-control-custom" placeholder="0.00" type="number" step="0.01" required />
+                                <label><i class="bi bi-currency-dollar me-2 text-primary"></i>Amount</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-floating">
+                                <select name="PaymentMethod" class="form-select form-control-custom" required>
+                                    <option value="">-- Select --</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="Card">Card</option>
+                                    <option value="UPI">UPI</option>
+                                    <option value="Bank Transfer">Bank Transfer</option>
+                                </select>
+                                <label><i class="bi bi-credit-card me-2 text-primary"></i>Payment</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <textarea name="Remarks" class="form-control form-control-custom" placeholder="Remarks" style="height: 70px;"></textarea>
+                                <label><i class="bi bi-chat-dots me-2 text-primary"></i>Remarks (optional)</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top px-4 py-3">
+                    <button type="button" class="btn-secondary-outline btn-sm" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn-primary-blue btn-sm">
+                        <i class="bi bi-check-lg"></i>Confirm Delivery
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -185,5 +275,15 @@
                 row.style.display = text.includes(value) ? '' : 'none';
             });
         });
+
+        function openQuickDelivery(ticketId, ticketNo, customerName, deviceName) {
+            document.getElementById('quickTicketId').value = ticketId;
+            document.getElementById('quickDeliveryTicket').textContent = 'Ticket: ' + ticketNo;
+            document.getElementById('quickCustomerName').textContent = customerName;
+            document.getElementById('quickDeviceName').textContent = deviceName;
+
+            var modal = new bootstrap.Modal(document.getElementById('quickDeliveryModal'));
+            modal.show();
+        }
     </script>
 }
