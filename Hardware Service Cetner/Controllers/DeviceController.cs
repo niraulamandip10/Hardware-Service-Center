@@ -1,10 +1,12 @@
 ﻿using Dapper;
 using Hardware_Service_Cetner.Data;
 using Hardware_Service_Cetner.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hardware_Service_Cetner.Controllers;
 
+[Authorize]
 public class DeviceController : Controller
 {
     private readonly IDbConnectionProvider _dbConnectionProvider;

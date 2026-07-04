@@ -1,11 +1,13 @@
 using System.Diagnostics;
 using Dapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Hardware_Service_Cetner.Data;
 using Hardware_Service_Cetner.Models;
 
 namespace Hardware_Service_Cetner.Controllers;
 
+[Authorize]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;

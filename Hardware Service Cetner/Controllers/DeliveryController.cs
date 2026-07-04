@@ -2,10 +2,12 @@
 using Hardware_Service_Cetner.Data;
 using Hardware_Service_Cetner.Enums;
 using Hardware_Service_Cetner.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hardware_Service_Cetner.Controllers;
 
+[Authorize]
 public class DeliveryController : Controller
 {
     private readonly IDbConnectionProvider _dbConnectionProvider;

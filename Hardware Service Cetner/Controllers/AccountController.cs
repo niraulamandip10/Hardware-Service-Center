@@ -1,11 +1,15 @@
 ﻿using Hardware_Service_Cetner.Data;
 using Dapper;
 using Hardware_Service_Cetner.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hardware_Service_Cetner.Controllers;
 
+[Authorize]
 public class AccountController : Controller
 {
     private readonly IDbConnectionProvider _dbConnectionProvider;
@@ -15,12 +19,17 @@ public class AccountController : Controller
         _dbConnectionProvider = dbConnectionProvider;
     }
 
+    [AllowAnonymous]
     public IActionResult Create()
     {
+        if (User.Identity?.IsAuthenticated == true)
+            return RedirectToAction("Report");
+
         return View();
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> Create(AccountModel accountModel)
     {
         if (ModelState.IsValid)
@@ -101,5 +110,11 @@ public class AccountController : Controller
         TempData["Success"] = "Account deactivated successfully!";
         return RedirectToAction("Report");
     }
-    
+
+
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return RedirectToAction("Login", "Login");
+    }
 }
