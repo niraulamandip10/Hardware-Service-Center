@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\Hardware Service Cetner.props" />
-</Project>
