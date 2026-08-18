@@ -7,7 +7,7 @@ public class DeliveryModel
     public int Id { get; set; }
     public int TicketId { get; set; }
     public int UserId { get; set; }
-    public string UserName { get; set; }
+    public string? UserName { get; set; }
     public DateTime RecDate { get; set; }
     public double Amount { get; set; }
     public string? PaymentMethod { get; set; }
