@@ -2,9 +2,26 @@
 **/bin/
 **/obj/
 
-# Rider
+# JetBrains Rider
 .idea/
 
-# User-specific files
+# Rider / Visual Studio user-specific files
 *.user
 *.suo
+*.rsuser
+
+# Visual Studio cache
+.vs/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# OS files
+.DS_Store
+Thumbs.db
