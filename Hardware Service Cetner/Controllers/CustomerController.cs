@@ -2,6 +2,7 @@
 using Hardware_Service_Cetner.Models;
 
 namespace Hardware_Service_Cetner.Controllers;
+
 using Dapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using Hardware_Service_Cetner.Data;
 public class CustomerController : Controller
 {
     private readonly IDbConnectionProvider _dbConnectionProvider;
+
     public CustomerController(IDbConnectionProvider dbConnectionProvider)
     {
         _dbConnectionProvider = dbConnectionProvider;
@@ -27,15 +29,17 @@ public class CustomerController : Controller
         if (ModelState.IsValid)
         {
             using var connection = _dbConnectionProvider.CreateConnection();
-            var createcustomer = @"INSERT INTO customer (Name, Email, Phone, Address, Status) VALUES (@Name, @Email, @Phone, @Address, @Status)";
+            var createcustomer =
+                @"INSERT INTO customer (Name, Email, Phone, Address, Status) VALUES (@Name, @Email, @Phone, @Address, @Status)";
             await connection.ExecuteAsync(createcustomer, customer);
             TempData["Success"] = "Customer created successfully!";
             return RedirectToAction("Report");
         }
+
         return View(customer);
     }
-    
-    
+
+
     [HttpGet]
     public async Task<IActionResult> Report()
     {
@@ -43,21 +47,21 @@ public class CustomerController : Controller
         var customers = await connection.QueryAsync<CustomerModel>("SELECT * FROM customer ORDER BY Id DESC");
         return View(customers);
     }
-    
-    
-    
 
 
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
         using var connection = _dbConnectionProvider.CreateConnection();
-        var customer = await connection.QueryFirstOrDefaultAsync<CustomerModel>("select * from customer where id = @id", new { id });
+        var customer =
+            await connection.QueryFirstOrDefaultAsync<CustomerModel>("select * from customer where id = @id",
+                new { id });
         if (customer == null)
         {
             TempData["Error"] = "Customer not found.";
             return RedirectToAction("Report");
         }
+
         return View(customer);
     }
 
@@ -75,17 +79,27 @@ public class CustomerController : Controller
             TempData["Success"] = "Customer updated successfully!";
             return RedirectToAction("Report");
         }
+
         return View(customer);
     }
 
 
     [HttpPost]
-    public IActionResult Delete(int id)
+    public async Task <IActionResult> Delete(int id)
     {
         using var connection = _dbConnectionProvider.CreateConnection();
-        var delete =@"Delete from customer where  id = @id";
-        connection.Execute(delete, new { id });
-        return RedirectToAction("Report");
+        var checktkt = await connection.QueryAsync<CustomerModel>(
+            "select * from tickets t join customer c on t.customerid = c.id where c.id = @id",
+            new { id });
+        if (checktkt is null)
+        {
+            var delete = @"Delete from customer where  id = @id";
+            connection.Execute(delete, new { id });
+            TempData["Success"] = "Customer deleted successfully!";
+            return RedirectToAction("Report");
+        }
+            TempData["Error"] = "Cannot Delete customer who has ticket assigned.";
+            return RedirectToAction("Report");
         
     }
 

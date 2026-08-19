@@ -7,6 +7,7 @@
 }
 
 <div class="page-content">
+    @*
     @if (TempData["Success"] != null)
     {
         <div class="theme-alert alert-success mb-4" role="alert">
@@ -23,7 +24,18 @@
             <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
         </div>
     }
+    *@
 
+    @if (TempData["Success"] != null)
+    {
+        <div id="toaster-data" data-toaster-message="@TempData["Success"]" data-toaster-type="success" style="display:none;"></div>
+    }
+    else if (TempData["Error"] != null)
+    {
+        <div id="toaster-data" data-toaster-message="@TempData["Error"]" data-toaster-type="error" style="display:none;"></div>
+    }
+    
+    
     <div class="theme-header d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
         <div>
             <nav aria-label="breadcrumb">
