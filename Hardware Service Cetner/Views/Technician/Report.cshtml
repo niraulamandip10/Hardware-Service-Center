@@ -78,11 +78,21 @@
                                 <td class="text-center">
                                     @if (tech.IsActive)
                                     {
-                                        <span class="badge-custom badge-completed"><i class="bi bi-check-circle-fill me-1"></i>Active</span>
+                                        <form asp-action="Deactivate" method="post" asp-route-id="@tech.Id" class="d-inline">
+                                            <button type="submit" class="badge-custom badge-completed border-0"
+                                                    onclick="return confirm('Are you sure you want to deactivate this account?')" title="Click to deactivate">
+                                                <i class="bi bi-check-circle-fill me-1"></i>Active
+                                            </button>
+                                        </form>
                                     }
                                     else
                                     {
-                                        <span class="badge-custom badge-pending"><i class="bi bi-x-circle-fill me-1"></i>Inactive</span>
+                                        <form asp-action="Activate" method="post" asp-route-id="@tech.Id" class="d-inline">
+                                            <button type="submit" class="badge-custom badge-pending border-0"
+                                                    onclick="return confirm('Are you sure you want to activate this account?')" title="Click to activate">
+                                                <i class="bi bi-x-circle-fill me-1"></i>Inactive
+                                            </button>
+                                        </form>
                                     }
                                 </td>
                                 <td class="text-center">
