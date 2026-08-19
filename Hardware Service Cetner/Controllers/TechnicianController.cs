@@ -3,6 +3,7 @@ using Hardware_Service_Cetner.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Hardware_Service_Cetner.Models;
+
 namespace Hardware_Service_Cetner.Controllers;
 
 [Authorize]
@@ -23,22 +24,20 @@ public class TechnicianController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(TechnicianModel technician)
     {
-      
-        
-      if (ModelState.IsValid)
+        if (ModelState.IsValid)
         {
             technician.IsActive = true;
             technician.RecDate = DateTime.UtcNow;
             using var connection = _dbConnectionProvider.CreateConnection();
             {
-                var createtech = @"Insert into technician (Name, Description, Code, RecDate, IsActive) values (@Name, @Description, @Code, @RecDate, @IsActive)";
+                var createtech =
+                    @"Insert into technician (Name, Description, Code, RecDate, IsActive) values (@Name, @Description, @Code, @RecDate, @IsActive)";
                 await connection.ExecuteAsync(createtech, technician);
                 return RedirectToAction("Report");
             }
-            
         }
+
         return View(technician);
-        
     }
 
     [HttpGet]
@@ -54,14 +53,16 @@ public class TechnicianController : Controller
     public async Task<IActionResult> Edit(int id)
     {
         using var connection = _dbConnectionProvider.CreateConnection();
-        var technician = await connection.QueryFirstOrDefaultAsync<TechnicianModel>("Select * from technician where id = @id", new { id });
+        var technician =
+            await connection.QueryFirstOrDefaultAsync<TechnicianModel>("Select * from technician where id = @id",
+                new { id });
         if (technician == null)
             return NotFound();
         return View(technician);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit( int id ,TechnicianModel technician)
+    public async Task<IActionResult> Edit(int id, TechnicianModel technician)
     {
         if (ModelState.IsValid)
         {
@@ -76,11 +77,21 @@ public class TechnicianController : Controller
     }
 
     [HttpPost]
-    public IActionResult Delete(int id)
+    public async Task< IActionResult> Delete(int id)
     {
         using var connection = _dbConnectionProvider.CreateConnection();
-        var delete = @"Delete from technician where Id = @id";
-        connection.Execute(delete, new { id });
+        var assignedtkt = await connection.QueryAsync<TechnicianModel>(
+            "select * from tickets t join technician tc on t.technicianid = tc.id where tc.id= @id",
+        new { id });
+        
+        if (assignedtkt.Count() == 0)
+        {
+            var delete = @"Delete from technician where Id = @id";
+            connection.Execute(delete, new { id });
+            TempData["Success"] = "Technician deleted successfully!";
+            return RedirectToAction("Report");
+        }
+        TempData["Error"] = " Cannot delete Technician already used in Ticket !";
         return RedirectToAction("Report");
     }
 
@@ -98,9 +109,19 @@ public class TechnicianController : Controller
     public async Task<IActionResult> Deactivate(int id)
     {
         using var connection = _dbConnectionProvider.CreateConnection();
-        var deactivate = @"Update technician set IsActive = @IsActive WHERE id = @id";
-        await connection.ExecuteAsync(deactivate, new { IsActive = false, id });
-        TempData["Success"] = "Technician deactivated successfully!";
+        var assignedTech = await connection.QueryAsync<TechnicianModel>(
+            "select * from tickets t join technician tc on t.technicianid = tc.id where ticketstatus not in (5, 4) and tc.id= @id",
+            new { id });
+
+        if (assignedTech.Count() == 0)
+        {
+            var deactivate = @"Update technician set IsActive = @IsActive WHERE id = @id";
+            await connection.ExecuteAsync(deactivate, new { IsActive = false, id });
+            TempData["Success"] = "Technician deactivated successfully!";
+            return RedirectToAction("Report");
+        }
+
+        TempData["Error"] = "Technician has Pending Tickets!";
         return RedirectToAction("Report");
     }
 }
