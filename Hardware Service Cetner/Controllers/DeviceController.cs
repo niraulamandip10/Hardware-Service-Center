@@ -29,7 +29,7 @@ public class DeviceController : Controller
             var connection = _dbConnectionProvider.CreateConnection();
             var getdevice = @"Insert into device  (Name,Description) values (@Name,@Description)";
            await connection.ExecuteAsync(getdevice, deviceModel);
-
+          TempData ["Success"] = "The Device is created";
             return RedirectToAction("Report");
         }
         return View(deviceModel);
@@ -47,8 +47,8 @@ public class DeviceController : Controller
     public async Task<IActionResult> Edit(int id)
     {
         var connection = _dbConnectionProvider.CreateConnection();
-        var editReport  = await connection.QueryFirstOrDefaultAsync<DeviceModel>("select * from device where Id = @Id", new { Id = id });
-        if (editReport != null)
+        var editReport  = await connection.QueryFirstOrDefaultAsync<DeviceModel>("select * from device where id = @id", new { id });
+        if (editReport is null)
         {
             TempData["Error"] = "Device not found";
             return RedirectToAction("Report");
@@ -65,6 +65,7 @@ public class DeviceController : Controller
             var editReport = ("update device set Name = @Name , Description =@Description where Id =@Id");
             deviceModel.Id = id;
             await connection.ExecuteAsync(editReport);
+            TempData ["Success"] = "The Device is updated";
             return RedirectToAction("Report");
         }
         return View(deviceModel);
@@ -76,6 +77,7 @@ public class DeviceController : Controller
         var connection = _dbConnectionProvider.CreateConnection();
         var deletedev = ("Delete from device where  Id = @Id");
         await connection.ExecuteAsync(deletedev, new {  id });
+        TempData ["Success"] = "The Device is deleted";
         return RedirectToAction("Report");
     }
 
@@ -85,6 +87,7 @@ public class DeviceController : Controller
         var connection = _dbConnectionProvider.CreateConnection();
         var activateRep = ("Update device set Status = @Status where Id = @Id");
         await connection.ExecuteAsync(activateRep,  new { Status = Boolean.Parse("True"), id });
+        TempData ["Success"] = "The Device is activated";
         return RedirectToAction("Report");
     }
 
@@ -94,6 +97,7 @@ public class DeviceController : Controller
         var connection = _dbConnectionProvider.CreateConnection();
         var deactiveRep = ("Update device set Status = @Status where Id = @Id");
         await connection.ExecuteAsync(deactiveRep,  new { Status = Boolean.Parse("False"), id });
+        TempData ["Success"] = "The Device is deactivated";
         return RedirectToAction("Report");
     }
 

@@ -88,6 +88,7 @@ public class AccountController : Controller
         using var connection = _dbConnectionProvider.CreateConnection();
         var dltUser = ("Delete from users where id =@id " );
         await connection.ExecuteAsync(dltUser, new { Id = id });
+        TempData["Success"] = "Account deleted successfully!";
         return RedirectToAction("Report");
     }
 
