@@ -91,7 +91,7 @@ public class CustomerController : Controller
         var checktkt = await connection.QueryAsync<CustomerModel>(
             "select * from tickets t join customer c on t.customerid = c.id where c.id = @id",
             new { id });
-        if (checktkt is null)
+        if (checktkt.Count()==0)
         {
             var delete = @"Delete from customer where  id = @id";
             connection.Execute(delete, new { id });
@@ -101,7 +101,7 @@ public class CustomerController : Controller
             TempData["Error"] = "Cannot Delete customer who has ticket assigned.";
             return RedirectToAction("Report");
         
-    }
+    }   
 
     [HttpPost]
     public async Task<IActionResult> Activate(int id)

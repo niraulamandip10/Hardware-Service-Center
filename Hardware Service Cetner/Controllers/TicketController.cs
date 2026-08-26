@@ -44,6 +44,7 @@ public class TicketController : Controller
         if (!ModelState.IsValid)
         {
             using var connection = _dbConnectionProvider.CreateConnection();
+           
             var getCustomer =
                 await connection.QueryAsync<CustomerModel>("select id, name from customer where Status = @Status",
                     new { Status = 1 });
@@ -53,11 +54,9 @@ public class TicketController : Controller
             var getRecById =
                 await connection.QueryAsync<AccountModel>("select id, name from users where isactive = @Status",
                     new { Status = true });
-
             ViewBag.getCustomer = getCustomer;
             ViewBag.getDevice = getDevice;
             ViewBag.getRecById = getRecById;
-
             return View(ticketModel);
         }
 
@@ -308,6 +307,7 @@ public class TicketController : Controller
         using var connection = _dbConnectionProvider.CreateConnection();
         var reverse = "Update tickets Set Status = @Status where Id = @Id and TicketStatus != 4";
         connection.ExecuteAsync(reverse, ticketModel.Id = id);
+        TempData ["Success"] = "Ticket reversed successfully!";
         return RedirectToAction("Report");
     }
 }
