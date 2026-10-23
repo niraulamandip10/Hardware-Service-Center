@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Hardware_Service_Cetner.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -17,6 +18,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromDays(7);
         options.SlidingExpiration = true;
     });
+
+
 
 var app = builder.Build();
 

@@ -22,6 +22,7 @@ public class DbQueries
         await connection.ExecuteAsync(CreateTicketTable);
         await connection.ExecuteAsync(CreateDeleveryTable);
         await connection.ExecuteAsync(CreatDefaultUser);
+        await connection.ExecuteAsync(CreateLedgerTable);
     }
 
     public const string CreateCustomerTable = @"CREATE TABLE IF NOT EXISTS customer (
@@ -141,4 +142,15 @@ select
            SELECT 1
            FROM users)
 ";
+
+    public const string CreateLedgerTable = @" CREATE TABLE if not exists ledger (
+    id INTEGER GENERATED always  AS IDENTITY PRIMARY KEY,
+    ledgername VARCHAR(255) NOT NULL,
+    ledgercode VARCHAR(100) NOT NULL,
+    coaledgerid INTEGER ,
+    recdate TIMESTAMP NOT NULL default now(),
+    recbyid INTEGER NOT NULL,
+    description TEXT,
+    status INTEGER NOT NULL default 1
+)";
 }

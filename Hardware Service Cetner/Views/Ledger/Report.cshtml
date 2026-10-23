@@ -1,0 +1,236 @@
+﻿@model IEnumerable<LedgerModel>
+
+@{
+    ViewData["Title"] = "Ledger Report";
+}
+
+<div class="page-content">
+
+    @if (TempData["Success"] != null)
+    {
+        <div id="toaster-data"
+             data-toaster-message="@TempData["Success"]"
+             data-toaster-type="success"
+             style="display:none;">
+        </div>
+    }
+    else if (TempData["Error"] != null)
+    {
+        <div id="toaster-data"
+             data-toaster-message="@TempData["Error"]"
+             data-toaster-type="Error"
+             style="display:none;"></div>
+    }
+
+    <div class="theme-header d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
+
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-custom mb-1">
+
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Home" asp-action="Index">
+                            <i class="bi bi-house-fill me-1"></i>
+                            Home
+                        </a>
+                    </li>
+
+                    <li class="breadcrumb-item active fw-semibold">
+                        <i class="bi bi-journal-text me-1"></i>
+                        Ledgers
+                    </li>
+
+                </ol>
+            </nav>
+
+            <h3 class="fw-bold mb-0">
+                <i class="bi bi-journal-text me-2 text-primary"></i>
+                Ledger Report
+            </h3>
+        </div>
+
+        <div>
+            <a asp-action="CreateLedger"
+               class="btn-primary-blue px-4">
+                <i class="bi bi-plus-lg me-1"></i>
+                Create Ledger
+            </a>
+        </div>
+
+    </div>
+
+
+    <!-- Ledger Report Card -->
+    <div class="theme-card">
+
+        <div class="theme-card-header">
+
+            <div class="header-icon">
+                <i class="bi bi-table"></i>
+            </div>
+
+            <div>
+                <h5 class="mb-0">Ledger List</h5>
+                <small>
+                    View all registered ledgers
+                </small>
+            </div>
+
+        </div>
+
+
+        <div class="theme-card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead>
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>
+                            <i class="bi  me-1 text-primary"></i>
+                            Ledger Name
+                        </th>
+
+                        <th>
+                            <i class="bi  me-1 text-primary"></i>
+                            Code
+                        </th>
+
+                        <th>
+                            <i class="bi  me-1 text-primary"></i>
+                            COA Ledger
+                        </th>
+
+                        <th>
+                            <i class="bi me-1 text-primary"></i>
+                            Received Date
+                        </th>
+
+                        <th>
+                            <i class="bi me-1 text-primary"></i>
+                            Status
+                        </th>
+
+                        <th class="text-end">
+                            Action
+                        </th>
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    @if (Model != null && Model.Any())
+                    {
+                        var count = 1;
+
+                        foreach (var ledger in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @count
+                                </td>
+
+                                <td>
+                                    <div class="fw-semibold">
+                                        @ledger.LedgerName
+                                    </div>
+
+                                    @if (!string.IsNullOrEmpty(ledger.Description))
+                                    {
+                                        <small class="text-muted">
+                                            @ledger.Description
+                                        </small>
+                                    }
+                                </td>
+
+                                <td>
+                                    <span class="badge bg-light text-dark border">
+                                        @ledger.LedgerCode
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @ledger.CoaLedger
+                                </td>
+
+                                <td>
+                                    @ledger.RecDate.ToString("dd MMM yyyy")
+                                </td>
+                                
+
+                                <td class="text-end">
+
+                                    <div class="d-flex justify-content-end gap-2">
+
+                                        <a asp-action="Edit"
+                                           asp-route-id=""
+                                           class="btn btn-sm btn-outline-primary"
+                                           title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+
+                                        <a asp-action="Details"
+                                           asp-route-id=""
+                                           class="btn btn-sm btn-outline-secondary"
+                                           title="Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            count++;
+                            }
+                            }
+                            else
+                            {
+                            <tr>
+
+                                <td colspan="7" class="text-center py-5">
+
+                                    <div class="text-muted">
+
+                                        <i class="bi bi-journal-x fs-1 d-block mb-3"></i>
+
+                                        <h6 class="fw-semibold">
+                                            No Ledgers Found
+                                        </h6>
+
+                                        <p class="mb-3">
+                                            There are currently no ledgers registered.
+                                        </p>
+
+                                        <a asp-action="CreateLedger"
+                                           class="btn-primary-blue px-4">
+                                            <i class="bi bi-plus-lg me-1"></i>
+                                            Create First Ledger
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            }
+
+                            </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
